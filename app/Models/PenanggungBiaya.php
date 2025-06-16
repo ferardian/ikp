@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
+ * Class PenanggungBiaya
+ *
+ * @package App
+ * @property int $id
+ * @property string $jenis_penanggung
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property \Illuminate\Support\Carbon|null $deleted_at
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Pasien> $pasiens
+ * @property-read int|null $pasiens_count
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya onlyTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya query()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya whereDeletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya whereJenisPenanggung($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya withTrashed()
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|PenanggungBiaya withoutTrashed()
+ * @mixin \Eloquent
+ */
+class PenanggungBiaya extends Model
+{
+    use SoftDeletes;
+    
+    /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = "penanggung_biaya";
+    
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $perPage = 20;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array<int, string>
+     */
+    protected $fillable = ['jenis_penanggung'];
+
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function pasiens()
+    {
+        return $this->hasMany(\App\Models\Pasien::class, 'id', 'penanggung_biaya_id');
+    }
+    
+}
