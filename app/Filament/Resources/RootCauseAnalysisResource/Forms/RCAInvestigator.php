@@ -71,15 +71,15 @@ class RCAInvestigator
 
                     DatePicker::make('tanggal_mulai_investigasi')
                         ->label('Tanggal Mulai Investigasi')
-                        ->minDate(fn ($livewire) => $livewire->insiden?->tanggal_insiden ? $livewire->insiden->tanggal_insiden : now()->subDays(3))
-                        ->maxDate(fn ($livewire) => $livewire->insiden ? $livewire->insiden->tanggal_insiden->copy()->addMonths(6) : now()->addMonths(6))
+                        ->minDate(fn($livewire) => $livewire->insiden?->tanggal_insiden ? $livewire->insiden->tanggal_insiden : now()->subDays(3))
+                        ->maxDate(fn($livewire) => $livewire->insiden ? $livewire->insiden->tanggal_insiden->copy()->addMonths(6) : now()->addMonths(6))
                         // ->maxDate(now()->addMonth(3))
                         ->required(),
 
                     DatePicker::make('tanggal_selesai_dilengkapi')
                         ->label('Tanggal Selesai Investigasi')
-                        ->minDate(fn ($livewire) => $livewire->insiden?->tanggal_insiden ? $livewire->insiden->tanggal_insiden : now()->subDays(3))
-                        ->maxDate(fn ($livewire) => $livewire->insiden ? $livewire->insiden->tanggal_insiden->copy()->addMonths(6) : now()->addMonths(6))
+                        ->minDate(fn($livewire) => $livewire->insiden?->tanggal_insiden ? $livewire->insiden->tanggal_insiden : now()->subDays(3))
+                        ->maxDate(fn($livewire) => $livewire->insiden ? $livewire->insiden->tanggal_insiden->copy()->addMonths(6) : now()->addMonths(6))
                         // ->maxDate(now()->addMonth(3))
                         ->required(),
                 ]),

@@ -9,4 +9,5 @@ use Filament\Resources\Pages\CreateRecord;
 class CreateInvestigasiSederhana extends CreateRecord
 {
     protected static string $resource = InvestigasiSederhanaResource::class;
+
 }

@@ -266,6 +266,10 @@ class InsidenResource extends Resource implements HasShieldPermissions
                         ->icon('heroicon-o-printer')
                         ->url(fn(Insiden $record) => route('insiden.print', ['insiden' => $record->id]), true)
                         ->visible(fn(Insiden $record) => !$record->trashed()),
+                    Tables\Actions\Action::make('Investigasi')
+                        ->icon('heroicon-o-magnifying-glass-circle')
+                        ->url(fn(Insiden $record) => InvestigasiSederhanaResource::getUrl('create', ['insiden' => $record->id]), true)
+                        ->disabled(fn(Insiden $record) => !$record->grading),
 
 
                     Tables\Actions\DeleteAction::make(),
