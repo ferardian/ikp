@@ -17,8 +17,11 @@ use Filament\Forms\Components\Select;
 use Illuminate\Database\Eloquent\Builder;
 
 use App\Filament\Resources\InvestigasiSederhanaResource\Pages;
+use App\Models\Insiden;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\Grid;
+use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
@@ -33,48 +36,103 @@ class InvestigasiSederhanaResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-magnifying-glass-circle';
 
-    public static function form(Form $form): Form
+    protected static string $resource = InvestigasiSederhanaResource::class;
+
+    public static ?Insiden $insiden = null;
+
+    public function mount(): void
     {
-        $insiden_id = Request::get('insiden');
+        parent::mount();
 
+        $insidenId = Request::get('insiden');
 
-
-        $insiden = \App\Models\Insiden::with([
+        self::$insiden = Insiden::with([
             'pasien',
             'unit',
-            'grading'
-        ])->find($insiden_id);
+            'grading',
+            'jenisInsiden',
+        ])
+            ->find(Request::get('insiden'));
+    }
 
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        if (self::$nsiden) {
+            $data['insiden_id'] = self::$nsiden->id;
+        }
+
+        return $data;
+    }
+
+    protected static function getFormDetailSchema(): array
+    {
+        return array_filter([
+            self::$insiden ? Section::make('Detail Insiden')
+                ->schema([
+                    Grid::make(3)->schema([
+                        Placeholder::make('nama_insiden')
+                            ->label('Insiden')
+                            ->content(self::$nsiden->insiden ?? '-'),
+
+                        Placeholder::make('nama')
+                            ->label('Pasien')
+                            ->content(self::$nsiden->pasien->nama ?? '-'),
+
+                        Placeholder::make('jenis_insiden')
+                            ->label('Jenis Insiden')
+                            ->content(self::$nsiden->jenisInsiden->nama_jenis_insiden ?? '-'),
+
+                        Placeholder::make('dampak_insiden')
+                            ->label('Dampak Insiden')
+                            ->content(ucfirst(self::$nsiden->dampak_insiden ?? '-')),
+
+                        Placeholder::make('tempat_kejadian')
+                            ->label('Tempat Kejadian')
+                            ->content(self::$nsiden->tempat_kejadian ?? '-'),
+
+                        Placeholder::make('tanggal_insiden')
+                            ->label('Tanggal Insiden')
+                            ->content(optional(self::$nsiden->tanggal_insiden)->format('Y-m-d')),
+                    ]),
+                ]) : null,
+
+
+        ]);
+    }
+
+    public static function form(Form $form): Form
+    {
+        // $insiden = null;
+
+        // if (blank($form->getModel()) && Request::has('insiden')) {
+        //     $insiden = \App\Models\Insiden::with([
+        //         'pasien',
+        //         'unit',
+        //         'grading',
+        //         'jenisInsiden',
+        //     ])->find(Request::get('insiden'));
+        // }
 
         return $form
-
             ->schema([
-                Section::make('Detail Insiden')
-                    ->disabled()
-                    ->schema(
-                        [
-                            Grid::make(3)->schema([
-                                TextInput::make('insiden_id')
-                                    ->label('Insiden')
-                                    ->default($insiden->insiden)
-                                    ->disabled(),
-
-                                TextInput::make('nama')
-                                    ->default($insiden->pasien->nama)
-                                    ->label('Pasien'),
-
-                                DatePicker::make('tanggal_insiden')
-
-                                    ->default($insiden->tanggal_insiden)
-                                    ->label('Tanggal Insiden'),
-                            ])
-                        ]
-                    ),
-
-                // ->disabled(),
+                ...self::getFormDetailSchema(),
                 ...InvestigasiSederhanaForm::schema(),
-
             ]);
+    }
+
+    public static function getIdInsiden()
+    {
+        return Request::has('insiden');
+    }
+
+    public static function canCreate(): bool
+    {
+
+        if (!self::getIdInsiden()) {
+            return false;
+        }
+
+        return true;
     }
 
     public static function table(Table $table): Table
@@ -105,8 +163,18 @@ class InvestigasiSederhanaResource extends Resource
                         'Belum' => 'gray',
                     })
                     ->badge(),
-                TextColumn::make('insiden')->label('Tanggal')
-                    ->formatStateUsing(fn($state) => $state->tanggal_insiden->translatedFormat('l, d F Y'))
+                TextColumn::make('tanggal_tindakan')->label('Tgl. Tindakan')
+                    ->formatStateUsing(fn($state) => $state->translatedFormat('l, d F Y')),
+                TextColumn::make('investigasi_lanjut')->label('Lanjut')
+                    ->color(fn($state) => match ($state) {
+                        'ya' => 'success',
+                        'tidak' => 'danger',
+                    })->badge()
+                    ->formatStateUsing(fn($state) => $state == 'ya' ? 'Ya' : 'Tidak'),
+
+                TextColumn::make('created_at')->label('Tgl. Dibuat')
+
+                    ->formatStateUsing(fn($state) => $state->translatedFormat('l, d F Y'))
                     ->description(fn($record) => $record->insiden->waktu_insiden),
 
             ])

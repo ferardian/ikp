@@ -10,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form; // Ensure Form is imported if this is a resource/page
+use Illuminate\Support\Facades\Request;
 
 class InvestigasiSederhanaForm
 {
@@ -21,7 +22,6 @@ class InvestigasiSederhanaForm
                 ->options(\App\Models\User::all()->pluck('name', 'id'))
                 ->searchable()
                 ->required(),
-
             TextInput::make('penyebab_insiden')
                 ->label('Penyebab Insiden Langsung')
                 ->placeholder('penyebab langsung insiden')

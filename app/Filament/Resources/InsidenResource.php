@@ -268,7 +268,13 @@ class InsidenResource extends Resource implements HasShieldPermissions
                         ->visible(fn(Insiden $record) => !$record->trashed()),
                     Tables\Actions\Action::make('Investigasi')
                         ->icon('heroicon-o-magnifying-glass-circle')
-                        ->url(fn(Insiden $record) => InvestigasiSederhanaResource::getUrl('create', ['insiden' => $record->id]), true)
+                        ->url(function (Insiden $record) {
+                            $investigasi = \App\Models\InvestigasiSederhana::where('insiden_id', $record->id)->first();
+
+                            return $investigasi
+                                ? InvestigasiSederhanaResource::getUrl('edit', ['record' => $investigasi->getKey()])
+                                : InvestigasiSederhanaResource::getUrl('create', ['insiden' => $record->id]);
+                        }, shouldOpenInNewTab: true)
                         ->disabled(fn(Insiden $record) => !$record->grading),
 
 
@@ -295,6 +301,17 @@ class InsidenResource extends Resource implements HasShieldPermissions
             //
         ];
     }
+
+    // public static function getRedirectUrlInvestigasi(): string
+    // {
+    //     $insidenId = request('insiden');
+
+    //     if ($insidenId && $existing = \App\Models\InvestigasiSederhana::where('insiden_id', $insidenId)->first()) {
+    //         return static::getUrl('edit', ['record' => $existing->id]);
+    //     }
+
+    //     return parent::getRedirectUrlInvestigasi();
+    // }
 
     public static function getEloquentQuery(): Builder
     {
