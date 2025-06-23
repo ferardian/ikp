@@ -27,7 +27,7 @@ class CreateInsiden extends CreateRecord
             Step::make('detail-insiden')
                 ->label('Detail Insiden')
                 ->schema(\App\Filament\Resources\InsidenResource\Forms\DetailInsiden::make())
-                ->afterValidation(fn ($state, $set, $get, $livewire) => InsidenResource::afterValidationStepPasien($state, $set, $get, $livewire)),
+                ->afterValidation(fn($state, $set, $get, $livewire) => InsidenResource::afterValidationStepPasien($state, $set, $get, $livewire)),
 
             Step::make('tindakan-pasca-insiden')
                 ->label('Tindakan dan Grading')
@@ -35,15 +35,15 @@ class CreateInsiden extends CreateRecord
                     ...\App\Filament\Resources\InsidenResource\Forms\TindakanInsiden::make(),
                     ...\App\Filament\Resources\InsidenResource\Forms\GradingInsiden::make()
                 ])
-                ->afterValidation(fn ($state) => InsidenResource::afterValidationStepTindakanInsiden($state)),
+                ->afterValidation(fn($state) => InsidenResource::afterValidationStepTindakanInsiden($state)),
 
-            Step::make('investigasi-sederhana')
-                ->label('Investigasi Sederhana')
-                ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
+            // Step::make('investigasi-sederhana')
+            //     ->label('Investigasi Sederhana')
+            //     ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
 
-            Step::make('validasi-dan-kirim-laporan')
-                ->label('Validasi dan Kirim Laporan')
-                ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make(null))
+            // Step::make('validasi-dan-kirim-laporan')
+            //     ->label('Validasi dan Kirim Laporan')
+            //     ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make(null))
         ];
     }
 

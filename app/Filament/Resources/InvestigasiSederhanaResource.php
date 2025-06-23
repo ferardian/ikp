@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Components\InvestigasiSederhanaForm;
+use App\Filament\Components\ValidasiInvestigasiForm;
 use App\Filament\Resources\InsidenResource\Forms\GradingInsiden;
 use Filament\Forms;
 use App\Models\User;
@@ -23,6 +24,8 @@ use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
+use Filament\Forms\Components\Wizard\Step;
+use Filament\Resources\Pages\CreateRecord;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Date;
@@ -57,83 +60,92 @@ class InvestigasiSederhanaResource extends Resource
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        if (self::$nsiden) {
-            $data['insiden_id'] = self::$nsiden->id;
+        if (self::$insiden) {
+            $data['insiden_id'] = self::$insiden->id;
         }
 
         return $data;
     }
 
-    protected static function getFormDetailSchema(): array
+    protected static function getFormDetailSchema($insiden): array
     {
-        return array_filter([
-            self::$insiden ? Section::make('Detail Insiden')
+        return [
+            Section::make('Detail Insiden')
                 ->schema([
                     Grid::make(3)->schema([
                         Placeholder::make('nama_insiden')
                             ->label('Insiden')
-                            ->content(self::$nsiden->insiden ?? '-'),
+                            ->content($insiden->insiden ?? '-'),
 
                         Placeholder::make('nama')
                             ->label('Pasien')
-                            ->content(self::$nsiden->pasien->nama ?? '-'),
+                            ->content($insiden->pasien->nama ?? '-'),
 
                         Placeholder::make('jenis_insiden')
                             ->label('Jenis Insiden')
-                            ->content(self::$nsiden->jenisInsiden->nama_jenis_insiden ?? '-'),
+                            ->content($insiden->jenisInsiden->nama_jenis_insiden ?? '-'),
 
                         Placeholder::make('dampak_insiden')
                             ->label('Dampak Insiden')
-                            ->content(ucfirst(self::$nsiden->dampak_insiden ?? '-')),
+                            ->content(ucfirst($insiden->dampak_insiden ?? '-')),
 
                         Placeholder::make('tempat_kejadian')
                             ->label('Tempat Kejadian')
-                            ->content(self::$nsiden->tempat_kejadian ?? '-'),
+                            ->content($insiden->tempat_kejadian ?? '-'),
 
                         Placeholder::make('tanggal_insiden')
                             ->label('Tanggal Insiden')
-                            ->content(optional(self::$nsiden->tanggal_insiden)->format('Y-m-d')),
+                            ->content(optional($insiden->tanggal_insiden ?? '-')->format('Y-m-d')),
                     ]),
-                ]) : null,
-
-
-        ]);
+                ])
+        ];
     }
 
-    public static function form(Form $form): Form
+    public static function form(Form|null $form): Form
     {
-        // $insiden = null;
+
+
 
         // if (blank($form->getModel()) && Request::has('insiden')) {
-        //     $insiden = \App\Models\Insiden::with([
-        //         'pasien',
-        //         'unit',
-        //         'grading',
-        //         'jenisInsiden',
-        //     ])->find(Request::get('insiden'));
         // }
+
+        $insidenId = self::getIdInsiden($form);
+        $insiden = \App\Models\Insiden::with([
+            'pasien',
+            'unit',
+            'grading',
+            'jenisInsiden',
+        ])->find($insidenId);
 
         return $form
             ->schema([
-                ...self::getFormDetailSchema(),
+                ...self::getFormDetailSchema($insiden),
                 ...InvestigasiSederhanaForm::schema(),
+                ...ValidasiInvestigasiForm::schema($form),
+                Hidden::make('insiden_id')
+                    ->default(fn() => request()->get('insiden'))
+                    ->dehydrated(),
+
             ]);
     }
 
-    public static function getIdInsiden()
-    {
-        return Request::has('insiden');
-    }
 
-    public static function canCreate(): bool
-    {
 
-        if (!self::getIdInsiden()) {
-            return false;
+    public static function getIdInsiden(Form|null $form)
+    {
+        if (request()->has('insiden')) {
+            return request()->get('insiden');
         }
 
-        return true;
+        return $form?->getRecord()?->insiden_id;
+
     }
+
+    // public static function canCreate(): bool
+    // {
+
+    //     return request()->has('insiden') && request()->get('insiden');
+    // }
 
     public static function table(Table $table): Table
     {
@@ -183,6 +195,7 @@ class InvestigasiSederhanaResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

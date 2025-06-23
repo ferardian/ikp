@@ -79,17 +79,17 @@ class InsidenResource extends Resource implements HasShieldPermissions
                         ...\App\Filament\Resources\InsidenResource\Forms\GradingInsiden::make()
                     ]),
 
-                Section::make('Investigasi Sederhana')
-                    ->description('Investigasi Sederhana Menyangkut Insiden')
-                    ->collapsible()
-                    ->collapsed()
-                    ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
+                // Section::make('Investigasi Sederhana')
+                //     ->description('Investigasi Sederhana Menyangkut Insiden')
+                //     ->collapsible()
+                //     ->collapsed()
+                //     ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
 
-                Section::make('Validasi dan Kirim Laporan')
-                    ->description('Validasi dan Kirim Laporan Insiden')
-                    ->collapsible()
-                    ->collapsed(false)
-                    ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make($form))
+                // Section::make('Validasi dan Kirim Laporan')
+                //     ->description('Validasi dan Kirim Laporan Insiden')
+                //     ->collapsible()
+                //     ->collapsed(false)
+                //     ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make($form))
             ]);
         } else {
             return $form
@@ -112,19 +112,19 @@ class InsidenResource extends Resource implements HasShieldPermissions
                             ])
                             ->afterValidation(fn($state) => self::afterValidationStepTindakanInsiden($state)),
 
-                        Step::make('investigasi-sederhana')
-                            ->label('Investigasi Sederhana')
-                            ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
+                        // Step::make('investigasi-sederhana')
+                        //     ->label('Investigasi Sederhana')
+                        //     ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
 
-                        Step::make('validasi-dan-kirim-laporan')
-                            ->label('Validasi dan Kirim Laporan')
-                            ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make($form))
+                        // Step::make('validasi-dan-kirim-laporan')
+                        //     ->label('Validasi dan Kirim Laporan')
+                        //     ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make($form))
                     ])->extraAlpineAttributes([
                                 '@step-pasien.window' => "step='pasien'",
                                 '@step-detail-insiden.window' => "step='detail-insiden'",
                                 '@step-tindakan-insiden.window' => "step='tindakan-insiden'",
-                                '@step-investigasi-sederhana.window' => "step='investigasi-sederhana'",
-                                '@step-validasi-dan-kirim-laporan.window' => "step='validasi-dan-kirim-laporan'",
+                                // '@step-investigasi-sederhana.window' => "step='investigasi-sederhana'",
+                                // '@step-validasi-dan-kirim-laporan.window' => "step='validasi-dan-kirim-laporan'",
                             ])->submitAction(new HtmlString(Blade::render(<<<BLADE
                     <x-filament::button
                         type="submit"

@@ -229,7 +229,7 @@ class ValidasiInsiden
 
             Section::make('Investigasi Sederhana')
                 ->description('Investigasi sederhana yang dilakukan pasca insiden')
-                ->relationship('investigasi_sederhana')
+                ->relationship(name: 'investigasi_sederhana')
                 ->schema([
                     // kepala
                     Placeholder::make('placeholder_kepala_id')
