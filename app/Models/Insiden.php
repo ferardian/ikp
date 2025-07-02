@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use function Livewire\on;
 
 /**
  * Class Insiden
@@ -111,6 +112,9 @@ class Insiden extends Model
      */
     protected $fillable = [
         "pasien_id",
+        "nm_pasien",
+        "tgl_lahir",
+        "jk",
         'tgl_pasien_masuk',
         "jenis_insiden_id",
         "tanggal_insiden",
@@ -149,10 +153,10 @@ class Insiden extends Model
      * @var array<string, string>
      */
     protected $casts = [
-        'tanggal_insiden'  => 'date',
+        'tanggal_insiden' => 'date',
         'tgl_pasien_masuk' => 'date',
-        'received_at'      => 'datetime',
-        'kasus_insiden'    => 'array',
+        'received_at' => 'datetime',
+        'kasus_insiden' => 'array',
     ];
 
     /**
@@ -176,9 +180,8 @@ class Insiden extends Model
      */
     public function pasien()
     {
-        return $this->belongsTo(\App\Models\Pasien::class, 'pasien_id', 'id');
+        return $this->belongsTo(\App\Models\Pasien::class, 'pasien_id', 'no_rkm_medis');
     }
-
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */

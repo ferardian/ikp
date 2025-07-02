@@ -32,14 +32,14 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class PenanggungBiaya extends Model
 {
     use SoftDeletes;
-    
+
     /**
      * The table associated with the model.
      *
      * @var string
      */
     protected $table = "penanggung_biaya";
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -62,5 +62,5 @@ class PenanggungBiaya extends Model
     {
         return $this->hasMany(\App\Models\Pasien::class, 'id', 'penanggung_biaya_id');
     }
-    
+
 }

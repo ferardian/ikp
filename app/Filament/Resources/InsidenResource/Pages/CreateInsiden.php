@@ -47,6 +47,11 @@ class CreateInsiden extends CreateRecord
         ];
     }
 
+    // protected function mutateFormDataBeforeCreate(array $data): array
+    // {
+    //     dd($data);
+    // }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');

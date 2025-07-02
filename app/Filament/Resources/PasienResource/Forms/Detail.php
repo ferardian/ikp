@@ -3,13 +3,24 @@
 namespace App\Filament\Resources\PasienResource\Forms;
 
 use App\Models\Pasien;
+use App\Models\Pasien2;
+use Filament\Forms\Components\Select;
 use Filament\Forms\Form;
 
 class Detail
 {
     public static function make(Form|null $form): array
     {
-        return  [
+        return [
+
+            Select::make('master_pasien')
+                ->label(
+                    'Master Pasien'
+                )
+                ->searchable(['no_rkm_medis', 'nm_pasien'])
+                ->options(Pasien2::take(100)->pluck('nm_pasien', 'no_rkm_medis'))
+                ->getOptionLabelFromRecordUsing(fn(Pasien2 $record) => "[ $record->no_rkm_medis ] {$record->nm_pasien}"),
+
             \Filament\Forms\Components\TextInput::make('nama')
                 ->label('Nama Lengkap')
                 ->required()

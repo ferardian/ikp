@@ -99,9 +99,9 @@ class JabatanResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListJabatans::route('/'),
+            'index' => Pages\ListJabatans::route('/'),
             'create' => Pages\CreateJabatan::route('/create'),
-            'edit'   => Pages\EditJabatan::route('/{record}/edit'),
+            'edit' => Pages\EditJabatan::route('/{record}/edit'),
         ];
     }
 }

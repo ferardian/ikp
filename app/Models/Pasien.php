@@ -52,7 +52,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Pasien extends Model
 {
-    use SoftDeletes, HasFactory;
+    use HasFactory;
 
     /**
      * The "paginate" attribute of the model.
@@ -67,33 +67,35 @@ class Pasien extends Model
      * @var string
      */
     protected $table = 'pasien';
+    public $timestamps = false;
+    protected $connection = 'mysql2';
 
     /**
      * The attributes that should be cast.
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'tanggal_lahir' => 'date',
-    ];
+    // protected $casts = [
+    //     'tanggal_lahir' => 'date',
+    // ];
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'nama',
-        'penanggung_biaya_id',
-        'no_rekam_medis',
-        'tanggal_lahir',
-        'jenis_kelamin',
-        'alamat',
-        'nik',
-        'tempat_lahir',
-        'no_telp',
-        'email',
-    ];
+    // protected $fillable = [
+    //     'nama',
+    //     'penanggung_biaya_id',
+    //     'no_rekam_medis',
+    //     'tanggal_lahir',
+    //     'jenis_kelamin',
+    //     'alamat',
+    //     'nik',
+    //     'tempat_lahir',
+    //     'no_telp',
+    //     'email',
+    // ];
 
 
     /**

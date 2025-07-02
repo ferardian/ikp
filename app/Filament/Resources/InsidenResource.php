@@ -58,11 +58,11 @@ class InsidenResource extends Resource implements HasShieldPermissions
             self::updateInsidenUnitData($record->unit_id, $record->id);
 
             return $form->schema([
-                Section::make('Pasien')
-                    ->description('Detail Pasien Terdampak')
-                    ->collapsible()
-                    ->collapsed(false)
-                    ->schema(\App\Filament\Resources\InsidenResource\Forms\DetailPasien::make()),
+                // Section::make('Pasien')
+                //     ->description('Detail Pasien Terdampak')
+                //     ->collapsible()
+                //     ->collapsed(false)
+                //     ->schema(\App\Filament\Resources\InsidenResource\Forms\DetailPasien::make()),
 
                 Section::make('Detail Insiden')
                     ->description("Detail Insiden")
@@ -95,9 +95,9 @@ class InsidenResource extends Resource implements HasShieldPermissions
             return $form
                 ->schema([
                     Wizard::make([
-                        Step::make('pasien')
-                            ->label('Pasien')
-                            ->schema(\App\Filament\Resources\InsidenResource\Forms\DetailPasien::make()),
+                        // Step::make('pasien')
+                        //     ->label('Pasien')
+                        //     ->schema(\App\Filament\Resources\InsidenResource\Forms\DetailPasien::make()),
 
                         Step::make('detail-insiden')
                             ->label('Detail Insiden')
@@ -170,15 +170,22 @@ class InsidenResource extends Resource implements HasShieldPermissions
                         abs($record->created_at->diffInHours($record->tanggal_insiden)) >= 24
                         ? 'danger'
                         : null
-                    )->description(fn(Insiden $record) => 'Pasien : ' . $record->pasien->nama),
+                    )->limit(50)
+                    ->description(function (Insiden $record) {
+                        if ($record->pasien) {
+                            return "Pasien : " . $record->pasien->nama;
+                        } else {
+                            return "Pasien : " . $record->nm_pasien;
+                        }
+                    }),
                 Tables\Columns\TextColumn::make('rca')
                     ->label("RCA")
                     ->searchable()
                     ->view('filament.tables.columns.has-rca')
                     ->toggleable(),
-                Tables\Columns\TextColumn::make('pasien.penanggungBiaya.jenis_penanggung')
-                    ->toggleable(isToggledHiddenByDefault: true)
-                    ->searchable(),
+                // Tables\Columns\TextColumn::make('pasien.penanggungBiaya.jenis_penanggung')
+                //     ->toggleable(isToggledHiddenByDefault: true)
+                //     ->searchable(),
                 Tables\Columns\TextColumn::make('jenis.alias')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false)
@@ -315,8 +322,10 @@ class InsidenResource extends Resource implements HasShieldPermissions
 
     public static function getEloquentQuery(): Builder
     {
-        $query = parent::getEloquentQuery()
-            ->with(['pasien.penanggungBiaya', 'jenis', 'unit', 'grading', 'tindakan', 'rca']);
+        // $query = parent::getEloquentQuery()
+        //     ->with(['pasien.penanggungBiaya', 'jenis', 'unit', 'grading', 'tindakan', 'rca']);
+        $query = parent::getEloquentQuery();
+        // ->with(['pasien', 'jenis', 'unit', 'grading', 'tindakan', 'rca']);
 
         // Jika user adalah pegawai, batasi data berdasarkan unitnya
         if (auth()->check() && auth()->user()->can('view_only_unit_insiden')) {
@@ -347,7 +356,7 @@ class InsidenResource extends Resource implements HasShieldPermissions
                 ->formatStateUsing(fn($state): string => $state->translatedFormat('l, d M Y')),
             \pxlrbt\FilamentExcel\Columns\Column::make('waktu_insiden')
                 ->heading('Waktu Insiden'),
-            \pxlrbt\FilamentExcel\Columns\Column::make('pasien.nama')
+            \pxlrbt\FilamentExcel\Columns\Column::make('\n.nama')
                 ->heading('Nama Pasien'),
             \pxlrbt\FilamentExcel\Columns\Column::make('tgl_pasien_masuk')
                 ->heading('Tanggal Pasien Masuk')

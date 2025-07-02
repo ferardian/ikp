@@ -22,6 +22,7 @@ class PasienResource extends Resource
     protected static ?string $navigationGroup = 'Master Data';
 
     protected static ?string $navigationLabel = 'Pasien';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {
@@ -56,16 +57,16 @@ class PasienResource extends Resource
                     \Filament\Infolists\Components\TextEntry::make('tanggal_lahir')->label('Tanggal Lahir')
                         ->dateTime('D, d F Y'),
                 ])->headerActions([
-                    \Filament\Infolists\Components\Actions\Action::make('edit')
-                        ->label('Edit')
-                        ->url(fn($record) => PasienResource::getUrl('edit', ['record' => $record]))
-                        ->modal(),
-                ]),
+                        \Filament\Infolists\Components\Actions\Action::make('edit')
+                            ->label('Edit')
+                            ->url(fn($record) => PasienResource::getUrl('edit', ['record' => $record]))
+                            ->modal(),
+                    ]),
 
             \Filament\Infolists\Components\Section::make("Kontak Pasien")
                 ->description("Informasi detail pasien")
                 ->columns([
-                        'md' => 2,
+                    'md' => 2,
                 ])
                 ->schema([
                     \Filament\Infolists\Components\TextEntry::make('no_telp')->label('No. Telepon'),
@@ -90,7 +91,7 @@ class PasienResource extends Resource
                     ->badge()
                     ->color(function (string $state): string {
                         $state = strtolower($state); // Ubah ke lowercase untuk pencocokan lebih fleksibel
-
+            
                         if (str_contains($state, 'bpjs')) {
                             return 'success';
                         } elseif (str_contains($state, 'jamkesda')) {
@@ -242,10 +243,10 @@ class PasienResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index'  => Pages\ListPasiens::route('/'),
+            'index' => Pages\ListPasiens::route('/'),
             'create' => Pages\CreatePasien::route('/create'),
-            'view'   => Pages\ViewPasien::route('/{record}'),
-            'edit'   => Pages\EditPasien::route('/{record}/edit'),
+            'view' => Pages\ViewPasien::route('/{record}'),
+            'edit' => Pages\EditPasien::route('/{record}/edit'),
         ];
     }
 

@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -15,7 +14,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pasien_id')->nullable()->constrained('pasien');
             $table->foreignId('jenis_insiden_id')->constrained('jenis_insiden');
-
             $table->date('tgl_pasien_masuk');
 
             $table->date('tanggal_insiden');

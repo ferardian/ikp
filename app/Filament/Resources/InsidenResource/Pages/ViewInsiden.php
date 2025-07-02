@@ -45,16 +45,16 @@ class ViewInsiden extends ViewRecord
                     ->description('Detail pasien terdampak')
                     ->collapsible()
                     ->collapsed(false)
-                    ->columns([ 'sm' => 2 ])
+                    ->columns(['sm' => 2])
                     ->schema([
-                        ...self::getPasienComponent($this->record->pasien),
+                        ...self::getPasienComponent($this->record),
                     ]),
 
                 \Filament\Infolists\Components\Section::make('Detail Insiden')
                     ->description('Detail insiden terkait')
                     ->collapsible()
                     ->collapsed()
-                    ->columns([ 'sm' => 2 ])
+                    ->columns(['sm' => 2])
                     ->schema([
                         ...self::getInsidenComponent($this->record),
                     ]),
@@ -63,7 +63,7 @@ class ViewInsiden extends ViewRecord
                     ->description('Tindakan yang dilakukan')
                     ->collapsible()
                     ->collapsed()
-                    ->columns([ 'sm' => 2 ])
+                    ->columns(['sm' => 2])
                     ->schema([
                         ...self::getTindakanComponent($this->record),
                     ]),
@@ -72,14 +72,14 @@ class ViewInsiden extends ViewRecord
                     ->description('Investigasi Sederhana terhadap insiden')
                     ->collapsible()
                     ->collapsed()
-                    ->columns([ 'sm' => 2 ])
+                    ->columns(['sm' => 2])
                     ->schema([
                         ...self::getInvestigasiSederhanaComponent($this->record),
                     ])
             ]);
     }
 
-    private static  function getTindakanComponent($insiden): array
+    private static function getTindakanComponent($insiden): array
     {
         $components = [];
         $data = [
@@ -118,7 +118,7 @@ class ViewInsiden extends ViewRecord
         return $components;
     }
 
-    private static  function getInsidenComponent($insiden): array
+    private static function getInsidenComponent($insiden): array
     {
         $components = [];
         $data = [
@@ -173,7 +173,8 @@ class ViewInsiden extends ViewRecord
             ],
         ];
 
-        foreach ($data as $key => $value) {;
+        foreach ($data as $key => $value) {
+            ;
             $components[] = TextEntry::make(isset($value['default']) && $value['default'] ? $key . '_' . $value['label'] : $key)
                 ->label($value['label'])
                 ->default($value['default'] ?? $insiden->{$key})
@@ -184,24 +185,36 @@ class ViewInsiden extends ViewRecord
         return $components;
     }
 
-    private static  function getPasienComponent($pasien): array
+    private static function getPasienComponent($insiden): array
     {
         $components = [];
         $data = [
-            'nama' => [
-                'label' => 'Nama'
+            'nm_pasien' => [
+                'label' => 'Nama',
+                'default' => function () use ($insiden) {
+                    return $insiden->pasien ? $insiden->pasien->nm_pasien : $insiden->nm_pasien;
+                },
             ],
-            'no_rekam_medis' => [
+            'no_rkm_medis' => [
                 'label' => 'No. Rekam Medis',
                 'badge' => true,
+                'default' => function () use ($insiden) {
+                    return $insiden->pasien ? $insiden->pasien->no_rkm_medis : $insiden->pasien_id;
+                }
             ],
             'tanggal_lahir' => [
                 'label' => 'Tanggal Lahir',
-                'default' => $pasien->tanggal_lahir ? $pasien->tanggal_lahir->translatedFormat('l, d F Y') : "-",
+                'default' => function () use ($insiden) {
+                    if ($insiden->pasien) {
+                        return \Carbon\Carbon::parse($insiden->pasien->tanggal_lahir)->translatedFormat('l, d F Y');
+                    } else {
+                        return \Carbon\Carbon::parse($insiden->tgl_lahir)->translatedFormat('d F Y');
+                    }
+                },
             ],
             'jenis_kelamin' => [
                 'label' => 'Jenis Kelamin',
-                'default' => $pasien->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan',
+                'default' => $insiden->pasien?->jenis_kelamin == 'L' ? 'Laki-laki' : 'Perempuan',
             ]
         ];
 
@@ -209,14 +222,14 @@ class ViewInsiden extends ViewRecord
             $components[] = TextEntry::make(isset($value['default']) && $value['default'] ? $key . '_' . $value['label'] : $key)
                 ->label($value['label'])
                 ->badge($value['badge'] ?? false)
-                ->default($value['default'] ?? $pasien->{$key})
-                ->columnSpan($value['columnSpan'] ?? 1);
+                ->default($value['default'] ?? 'default');
+            // ->columnSpan($value['columnSpan'] ?? 1);
         }
 
         return $components;
     }
 
-    private static  function getInvestigasiSederhanaComponent($insiden): array
+    private static function getInvestigasiSederhanaComponent($insiden): array
     {
         return [
             TextEntry::make('investigasi_sederhana.kepala.name')

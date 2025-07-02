@@ -150,11 +150,15 @@ class InvestigasiSederhanaResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
-
             ->columns([
-
                 TextColumn::make('insiden.insiden')->label('Insiden')
-                    ->description(fn(InvestigasiSederhana $record) => $record->insiden->pasien->nama)
+                    ->description(function (InvestigasiSederhana $record) {
+                        if ($record->insiden->pasien) {
+                            return "Pasien : " . $record->insiden->pasien->nama;
+                        } else {
+                            return "Pasien : " . $record->insiden->nm_pasien;
+                        }
+                    })
                     ->searchable(),
                 IconColumn::make('lengkap')->label('Lengkap')
                     ->icon(fn($state) => match ($state) {
