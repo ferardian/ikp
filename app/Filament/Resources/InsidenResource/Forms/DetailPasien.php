@@ -174,7 +174,7 @@ class DetailPasien
                                     if ($pasien) {
                                         $set('no_rkm_medis', $pasien->no_rkm_medis);
                                         $set('nm_pasien', $pasien->nm_pasien);
-                                        $set('tgl_lahir', \Carbon\Carbon::parse($pasien->tgl_lahir)->translatedFormat('l, d F Y'));
+                                        $set('tgl_lahir', \Carbon\Carbon::parse($pasien->tgl_lahir)->translatedFormat('Y-m-d'));
                                         $set('jk', $pasien->jk === 'P' ? 'Perempuan' : 'Laki-laki');
                                     }
                                 })

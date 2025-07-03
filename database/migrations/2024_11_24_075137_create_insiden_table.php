@@ -12,7 +12,11 @@ return new class extends Migration {
     {
         Schema::create('insiden', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pasien_id')->nullable()->constrained('pasien');
+            $table->string('pasien_id');
+            $table->string('nm_pasien');
+            $table->date('tgl_lahir');
+            $table->string('jk');
+
             $table->foreignId('jenis_insiden_id')->constrained('jenis_insiden');
             $table->date('tgl_pasien_masuk');
 

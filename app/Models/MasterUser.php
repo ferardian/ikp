@@ -15,12 +15,33 @@ class MasterUser extends Model
     public $timestamps = false;
     public $incrementing = false;
 
-    public function getIdUserDecryptedAttribute()
+    protected $appends = ['username', 'passwd'];
+
+    public function getUsernameAttribute()
     {
-        return DB::selectOne("SELECT CAST(AES_DECRYPT(?, ?) AS CHAR) AS decrypted", [
-            $this->attributes['id_user'],
-            config('database.aes_keys.id_user')
-        ])?->decrypted;
+        return DB::connection($this->connection)
+            ->table($this->table)
+            ->selectRaw("AES_DECRYPT(id_user, ?) as username", [config('database.aes_keys.id_user')])
+            ->where('id_user', $this->attributes['id_user'])
+            ->value('username');
     }
 
+    public function getPasswdAttribute()
+    {
+        return DB::connection($this->connection)
+            ->table($this->table)
+            ->selectRaw("AES_DECRYPT(password, ?) as passwd", [config('database.aes_keys.password')])
+            ->where('id_user', $this->attributes['id_user'])
+            ->value('passwd');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'username';
+    }
+
+    function pegawai()
+    {
+        return $this->hasOne(MasterUser::class, 'id_user', 'nik');
+    }
 }

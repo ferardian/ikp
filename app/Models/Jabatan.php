@@ -49,5 +49,5 @@ class Jabatan extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['kode', 'nama', 'deskripsi'];
+    protected $fillable = ['kode', 'nama', 'deskripsi', 'id'];
 }

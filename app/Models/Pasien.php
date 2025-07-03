@@ -69,6 +69,8 @@ class Pasien extends Model
     protected $table = 'pasien';
     public $timestamps = false;
     protected $connection = 'mysql2';
+    protected $primaryKey = 'no_rkm_medis';
+    protected $keyType = 'string';
 
     /**
      * The attributes that should be cast.

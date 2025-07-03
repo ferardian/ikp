@@ -12,16 +12,16 @@ class PenanggungBiayaSeeder extends Seeder
      */
     public function run(): void
     {
+        // Change to aarray
         $penanggungBiaya = [
-            'BPJS Kesehatan',
-            'Jamkesda',
-            'Umum / Pribadi',
-            'Asuransi Swasta',
-            'Pemerintah',
-            'Perusahaan',
-            'Lain-Lain'
+            'BPJS KESEHATAN / NON PBI',
+            'PRUDENTIAL',
+            'UMUM',
+            'BPJS KESEHATAN / PBI',
+            'UMUM/BPJS [Jangan dipakai]',
+            'JAMPERSAL',
+            'PBI',
         ];
-
         foreach ($penanggungBiaya as $biaya) {
             \App\Models\PenanggungBiaya::create(['jenis_penanggung' => $biaya]);
         }

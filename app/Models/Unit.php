@@ -41,7 +41,7 @@ class Unit extends Model
      * @var string
      */
     protected $table = "unit";
-    
+
     /**
      * The primary key associated with the table.
      *
@@ -54,7 +54,7 @@ class Unit extends Model
      *
      * @var array<int, string>
      */
-    protected $fillable = ['nama_unit'];
+    protected $fillable = ['nama_unit', 'id'];
 
 
     /**
@@ -64,5 +64,5 @@ class Unit extends Model
     {
         return $this->hasMany(\App\Models\Insiden::class, 'id', 'unit_id');
     }
-    
+
 }
