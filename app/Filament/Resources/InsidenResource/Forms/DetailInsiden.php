@@ -128,8 +128,8 @@ class DetailInsiden
                         ->relationship('unit', 'nama_unit')
                         ->placeholder('Pilih Unit')
                         ->searchable()->preload()
-                        ->default(fn () => auth()->user()?->detail?->unit_id)
-                        ->disabled(fn () => auth()->user()->can('view_only_unit_insiden'))
+                        // ->default(fn () => auth()->user()?->detail?->unit_id)
+                        ->disabled(fn() => auth()->user()->can('view_only_unit_insiden'))
                         ->required(),
                 ]),
 

@@ -11,6 +11,7 @@ use Filament\Forms\Components\DatePicker;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Form; // Ensure Form is imported if this is a resource/page
 use Illuminate\Support\Facades\Request;
+use Notification;
 
 class InvestigasiSederhanaForm
 {
@@ -21,6 +22,12 @@ class InvestigasiSederhanaForm
                 ->label('Manager / Kepala Bagian / Kepala Unit')
                 ->options(\App\Models\User::all()->pluck('name', 'id'))
                 ->searchable()
+                ->reactive()
+                ->afterStateUpdated(function ($state, callable $set) {
+                    if ($state) {
+                        return $set('recieved_by', $state);
+                    }
+                })
                 ->required(),
             TextInput::make('penyebab_insiden')
                 ->label('Penyebab Insiden Langsung')

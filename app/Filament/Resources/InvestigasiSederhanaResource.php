@@ -30,6 +30,7 @@ use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Date;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Request;
 
 use function Laravel\Prompts\search;
@@ -212,6 +213,17 @@ class InvestigasiSederhanaResource extends Resource
             ->actions([
                 ActionGroup::make([
                     Tables\Actions\EditAction::make(),
+                    Tables\Actions\Action::make('rca')
+                        ->label(fn(InvestigasiSederhana $record) => $record->insiden->rca ? 'Edit RCA' : 'Buat RCA')
+                        ->icon('heroicon-o-document-text')
+                        ->authorize(function ($record) {
+                            if ($record->rca) {
+                                return Gate::allows('update_root::cause::analysis', $record->insiden->rca);
+                            } else {
+                                return Gate::allows('create_root::cause::analysis', $record->insiden);
+                            }
+                        })
+                        ->url(fn(InvestigasiSederhana $record) => $record->insiden->rca ? RootCauseAnalysisResource::getUrl('edit', ['record' => $record->insiden->rca, 'insiden' => $record->id]) : RootCauseAnalysisResource::getUrl('create', ['insiden' => $record->id])),
                     Tables\Actions\DeleteAction::make(),
                 ])
             ])

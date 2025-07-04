@@ -7,7 +7,9 @@ use Coolsam\SignaturePad\Forms\Components\Fields\SignaturePad;
 use Doctrine\DBAL\Schema\View;
 use Filament\Forms\Components\Grid;
 use Filament\Forms\Components\Hidden;
+use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\View as ComponentsView;
+use Filament\Tables\Columns\TextColumn;
 
 class ValidasiInvestigasiForm
 {
@@ -25,6 +27,7 @@ class ValidasiInvestigasiForm
                         ]),
                     ComponentsView::make('livewire.signature-recieve-sign')
                         ->viewData(fn($record) => [
+                            'record' => $record,
                             'recieve_signature' => $record?->insiden?->received_sign,
                             'recieve_signature_by' => $record?->insiden?->penerima?->name,
                         ]),
@@ -39,7 +42,7 @@ class ValidasiInvestigasiForm
                         ->hideDownloadButtons() // In case you don't want to show the download buttons on the pad, you can hide them by setting this option.
                         ->displayTemplate(false)
                         ->view('vendor.signature-pad.signature-pad')
-                        ->default(fn($record) => $record?->insiden?->received_sign)
+                        // ->default(fn($record) => $record?->insiden?->created_sign)
                         ->required(),
 
                     SignaturePad::make('received_sign')
@@ -53,17 +56,11 @@ class ValidasiInvestigasiForm
                         ->hideDownloadButtons() // In case you don't want to show the download buttons on the pad, you can hide them by setting this option.
                         ->displayTemplate(false)
                         ->view('vendor.signature-pad.signature-pad')
-                        ->default(fn($record) => $record?->insiden?->created_sign)
+                        // ->default(fn($record) => $record?->insiden?->recieve_sign)
                         ->required(),
-
 
                     // PEMBUAT LAPORAN
                     Hidden::make('created_by')
-                        ->dehydrated()
-                        ->formatStateUsing(fn($state) => $state ?? auth()->id()),
-
-                    // PENERIMA LAPORAN
-                    Hidden::make('received_by')
                         ->dehydrated()
                         ->formatStateUsing(fn($state) => $state ?? auth()->id()),
 

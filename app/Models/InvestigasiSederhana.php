@@ -103,4 +103,6 @@ class InvestigasiSederhana extends Model
     {
         return $this->belongsTo(\App\Models\User::class, 'penanggung_jawab_tindakan', 'id');
     }
+
+    
 }

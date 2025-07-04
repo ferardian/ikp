@@ -219,6 +219,20 @@ class InsidenResource extends Resource implements HasShieldPermissions
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\RestoreAction::make(),
                 Tables\Actions\ActionGroup::make([
+                    Tables\Actions\Action::make('Investigasi')
+                        ->icon('heroicon-o-magnifying-glass-circle')
+                        ->url(function (Insiden $record) {
+                            $investigasi = \App\Models\InvestigasiSederhana::where('insiden_id', $record->id)->first();
+                            return $investigasi
+                                ? InvestigasiSederhanaResource::getUrl('edit', ['record' => $investigasi->getKey()])
+                                : InvestigasiSederhanaResource::getUrl('create', ['insiden' => $record->id]);
+                        })
+                        ->disabled(fn(Insiden $record) => !$record->grading),
+
+                    Tables\Actions\Action::make('Update Grading')
+                        ->icon('heroicon-o-swatch')
+                        ->visible(fn(Insiden $record) => !$record->trashed())
+                        ->url(fn(Insiden $record) => InsidenResource::getUrl('update-grading', ['record' => $record])),
                     Tables\Actions\Action::make('rca')
                         ->label(fn(Insiden $record) => $record->rca ? 'Edit RCA' : 'Buat RCA')
                         ->icon('heroicon-o-document-text')
@@ -231,25 +245,11 @@ class InsidenResource extends Resource implements HasShieldPermissions
                         })
                         ->url(fn(Insiden $record) => $record->rca ? RootCauseAnalysisResource::getUrl('edit', ['record' => $record->rca, 'insiden' => $record->id]) : RootCauseAnalysisResource::getUrl('create', ['insiden' => $record->id])),
 
-                    Tables\Actions\Action::make('Update Grading')
-                        ->icon('heroicon-o-swatch')
-                        ->visible(fn(Insiden $record) => !$record->trashed())
-                        ->url(fn(Insiden $record) => InsidenResource::getUrl('update-grading', ['record' => $record])),
-
                     Tables\Actions\Action::make('Print')
                         ->icon('heroicon-o-printer')
                         ->url(fn(Insiden $record) => route('insiden.print', ['insiden' => $record->id]), true)
                         ->visible(fn(Insiden $record) => !$record->trashed()),
-                    Tables\Actions\Action::make('Investigasi')
-                        ->icon('heroicon-o-magnifying-glass-circle')
-                        ->url(function (Insiden $record) {
-                            $investigasi = \App\Models\InvestigasiSederhana::where('insiden_id', $record->id)->first();
 
-                            return $investigasi
-                                ? InvestigasiSederhanaResource::getUrl('edit', ['record' => $investigasi->getKey()])
-                                : InvestigasiSederhanaResource::getUrl('create', ['insiden' => $record->id]);
-                        }, shouldOpenInNewTab: true)
-                        ->disabled(fn(Insiden $record) => !$record->grading),
 
 
                     Tables\Actions\DeleteAction::make(),
