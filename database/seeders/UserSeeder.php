@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
         foreach ($master as $key => $value) {
 
             $decryptedPassword = \App\Models\MasterUser::getPasswordDecryptedById($value->nik)
-                ->first()->passwd;
+                ->first()?->passwd;
 
             $user = \App\Models\User::create([
                 'name' => $value->nama,

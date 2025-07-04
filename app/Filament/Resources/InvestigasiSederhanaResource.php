@@ -26,6 +26,7 @@ use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Wizard\Step;
 use Filament\Resources\Pages\CreateRecord;
+use Filament\Tables\Actions\ActionGroup;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Illuminate\Support\Facades\Date;
@@ -152,14 +153,16 @@ class InvestigasiSederhanaResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('insiden.insiden')->label('Insiden')
+                    ->limit(35)
                     ->description(function (InvestigasiSederhana $record) {
                         if ($record->insiden->pasien) {
-                            return "Pasien : " . $record->insiden->pasien->nama;
+                            return "Pasien : " . $record->insiden->pasien->nm_pasien;
                         } else {
                             return "Pasien : " . $record->insiden->nm_pasien;
                         }
                     })
-                    ->searchable(),
+                    ->searchable()
+                    ->sortable(),
                 IconColumn::make('lengkap')->label('Lengkap')
                     ->icon(fn($state) => match ($state) {
                         'lengkap' => 'heroicon-s-check-circle',
@@ -167,8 +170,9 @@ class InvestigasiSederhanaResource extends Resource
                     })->color(fn($state) => match ($state) {
                         'lengkap' => 'success',
                         'belum' => 'danger',
-                    }),
-                TextColumn::make('insiden.unit.nama_unit')->label('Unit'),
+                    })->sortable(),
+                TextColumn::make('insiden.unit.nama_unit')->label('Unit')
+                    ->sortable(),
                 TextColumn::make('insiden.grading.grading_risiko')->label('Grading')
                     ->default('Belum')
                     ->color(fn($state) => match ($state ?? $state->grading_risiko) {
@@ -178,28 +182,38 @@ class InvestigasiSederhanaResource extends Resource
                         'Merah' => 'danger',
                         'Belum' => 'gray',
                     })
-                    ->badge(),
+                    ->badge()
+                    ->sortable(),
                 TextColumn::make('tanggal_tindakan')->label('Tgl. Tindakan')
-                    ->formatStateUsing(fn($state) => $state->translatedFormat('l, d F Y')),
+                    ->formatStateUsing(fn($state) => $state->translatedFormat('d F Y'))
+                    ->tooltip(function (InvestigasiSederhana $record) {
+                        $tanggal_mulai = \Carbon\Carbon::parse($record->tanggal_selesai)->translatedFormat('d F Y');
+                        $tanggal_selesai = \Carbon\Carbon::parse($record->tanggal_selesai)->translatedFormat('d F Y');
+                        return "Mulai $tanggal_mulai, Selesai $tanggal_selesai";
+                    })->sortable(),
                 TextColumn::make('investigasi_lanjut')->label('Lanjut')
                     ->color(fn($state) => match ($state) {
                         'ya' => 'success',
                         'tidak' => 'danger',
                     })->badge()
-                    ->formatStateUsing(fn($state) => $state == 'ya' ? 'Ya' : 'Tidak'),
+                    ->formatStateUsing(fn($state) => $state == 'ya' ? 'Ya' : 'Tidak')
+                    ->sortable(),
 
                 TextColumn::make('created_at')->label('Tgl. Dibuat')
 
-                    ->formatStateUsing(fn($state) => $state->translatedFormat('l, d F Y'))
-                    ->description(fn($record) => $record->insiden->waktu_insiden),
+                    ->formatStateUsing(fn($state) => $state->translatedFormat('d F Y'))
+                    ->description(fn($record) => $record->insiden->waktu_insiden)
+                    ->sortable(),
 
             ])
             ->filters([
                 // \App\Filament\Resources\InsidenResource\Filters\GradingInsiden::make()
             ])
             ->actions([
-                Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
+                ActionGroup::make([
+                    Tables\Actions\EditAction::make(),
+                    Tables\Actions\DeleteAction::make(),
+                ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

@@ -180,18 +180,6 @@ class InsidenSeeder extends Seeder
 
         // [ 2 ] Create Insiden ////////////////////
         foreach ($data as $item) {
-            // $pasien = \App\Models\Pasien::create([
-            //     'nama'                => $faker->name,
-            //     'nik'                 => $faker->nik ?? null,
-            //     'no_rekam_medis'      => $faker->unique()->randomNumber(8),
-            //     'tempat_lahir'        => $faker->city,
-            //     'tanggal_lahir'       => $faker->date('Y-m-d'),
-            //     'jenis_kelamin'       => $faker->randomElement(['L', 'P']),
-            //     'no_telp'             => $faker->phoneNumber,
-            //     'email'               => $faker->email,
-            //     'alamat'              => $faker->address,
-            //     'penanggung_biaya_id' => \App\Models\PenanggungBiaya::all()->random()->id,
-            // ]);
 
             $pasien = Pasien::inRandomOrder()->first();
 
@@ -237,6 +225,13 @@ class InsidenSeeder extends Seeder
                 'content' => $item['tindakan_pasca_insiden'],
                 'oleh' => $tindakanOleh,
                 'detail' => in_array($tindakanOleh, ['tim', 'petugas']) ? $faker->name : null,
+            ]);
+
+            // [2.1.1 ] Create Grading ////////////////////
+            \App\Models\Grading::create([
+                'insiden_id' => $insiden->id,
+                'grading_risiko' => $faker->randomElement(['Biru', 'Hijau', 'Kuning', 'Merah']),
+                'created_by' => $users->id,
             ]);
 
             // [ 2.2 ] Create Investigasi Sederhana ////////////////////

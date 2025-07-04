@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -13,7 +12,9 @@ return new class extends Migration
     {
         Schema::create('tindakan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('insiden_id')->constrained('insiden');
+            $table->foreignId('insiden_id')->constrained('insiden')
+                ->onDelete('CASCADE')
+                ->onUpdate('CASCADE');
             $table->string('content');
             $table->enum('oleh', ['dokter', 'perawat', 'tim', 'petugas']);
             $table->string('detail')->nullable();

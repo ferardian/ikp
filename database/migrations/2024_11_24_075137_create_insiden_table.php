@@ -12,7 +12,7 @@ return new class extends Migration {
     {
         Schema::create('insiden', function (Blueprint $table) {
             $table->id();
-            $table->string('pasien_id');
+            $table->string('pasien_id')->default('000000');
             $table->string('nm_pasien');
             $table->date('tgl_lahir');
             $table->string('jk');

@@ -21,20 +21,27 @@ class PegawaiResource extends Resource implements HasShieldPermissions
 
     protected static ?string $navigationGroup = 'Master Data';
 
-    protected static ?string $breadcrumb = 'Pegawai';
+    protected static ?string $breadcrumb = 'User';
 
-    protected static ?string $navigationLabel = 'Pegawai';
+    protected static ?string $navigationLabel = 'User';
 
     public static function getPermissionPrefixes(): array
     {
         return [
-            'view', 'view_any',
-            'create', 'update',
-            'restore', 'restore_any',
-            'replicate', 'reorder',
-            'delete', 'delete_any',
-            'force_delete', 'force_delete_any',
-            'change_role', 'change_password',
+            'view',
+            'view_any',
+            'create',
+            'update',
+            'restore',
+            'restore_any',
+            'replicate',
+            'reorder',
+            'delete',
+            'delete_any',
+            'force_delete',
+            'force_delete_any',
+            'change_role',
+            'change_password',
         ];
     }
 
@@ -130,7 +137,7 @@ class PegawaiResource extends Resource implements HasShieldPermissions
                 Tables\Columns\TextColumn::make('name')
                     ->label('Name')
                     ->description(function ($record) {
-                        return 'Unit : ' . $record->detail->unit->nama_unit;
+                        return 'Unit : ' . $record->detail?->unit->nama_unit;
                     })
                     ->searchable()
                     ->sortable(),
@@ -146,7 +153,7 @@ class PegawaiResource extends Resource implements HasShieldPermissions
                     ->badge()
                     ->color(function (string $state): string {
                         $state = strtolower($state); // Ubah ke lowercase untuk pencocokan lebih fleksibel
-
+            
                         if (str_contains($state, 'admin')) {
                             return 'danger';
                         } elseif (str_contains($state, 'komite') || str_contains($state, 'mutu')) {

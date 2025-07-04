@@ -23,7 +23,10 @@ use Illuminate\Support\Facades\DB;
 class UserResource extends Resource
 {
     protected static ?string $model = MasterPetugas::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static ?string $navigationGroup = 'Master Data';
+    protected static ?string $navigationLabel = 'Pegawai';
+
 
     public static function form(Form $form): Form
     {

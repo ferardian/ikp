@@ -19,7 +19,7 @@ class ListPegawais extends ListRecords
 
     public function getTitle(): string
     {
-        return 'Data Pegawai';
+        return 'Data User';
     }
 
     public function getBreadcrumb(): ?string

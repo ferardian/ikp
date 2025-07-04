@@ -36,22 +36,17 @@ class CreateInsiden extends CreateRecord
                     ...\App\Filament\Resources\InsidenResource\Forms\GradingInsiden::make()
                 ])
                 ->afterValidation(fn($state) => InsidenResource::afterValidationStepTindakanInsiden($state)),
-
-            // Step::make('investigasi-sederhana')
-            //     ->label('Investigasi Sederhana')
-            //     ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
-
-            // Step::make('validasi-dan-kirim-laporan')
-            //     ->label('Validasi dan Kirim Laporan')
-            //     ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make(null))
         ];
     }
 
-    // protected function mutateFormDataBeforeCreate(array $data): array
-    // {
-    //     dd($data);
-    // }
+    protected function mutateFormDataBeforeCreate(array $data): array
+    {
+        $dataChange = [
+            "pasien_id" => $data['pasien_id'] ?? '000000',
+        ];
 
+        return array_replace($data, $dataChange);
+    }
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
