@@ -64,5 +64,10 @@ class Unit extends Model
     {
         return $this->hasMany(\App\Models\Insiden::class, 'id', 'unit_id');
     }
+    public function scopeWhereByName($query, $name)
+    {
+        return $query->where('nama_unit', $name);
+    }
+
 
 }

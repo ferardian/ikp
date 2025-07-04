@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class MasterPetugas extends Model
@@ -13,6 +14,13 @@ class MasterPetugas extends Model
     protected $keyType = 'string';
     public $timestamps = false;
     public $incrementing = false;
+
+    protected static function booted()
+    {
+        static::addGlobalScope('nip', function (Builder $builder) {
+            $builder->where('nip', '!=', '-');
+        });
+    }
 
     public function pegawai()
     {

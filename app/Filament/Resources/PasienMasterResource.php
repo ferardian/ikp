@@ -4,7 +4,7 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\PasienMasterResource\Pages;
 use App\Filament\Resources\PasienMasterResource\RelationManagers;
-use App\Models\PasienMaster;
+use App\Models\Pasien;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -16,11 +16,12 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class PasienMasterResource extends Resource
 {
-    protected static ?string $model = PasienMaster::class;
+    protected static ?string $model = Pasien::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $navigationGroup = 'Master Data';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

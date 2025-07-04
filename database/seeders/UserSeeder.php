@@ -44,11 +44,8 @@ class UserSeeder extends Seeder
 
         foreach ($master as $key => $value) {
 
-            $decryptedPassword = DB::connection('mysql2')
-                ->table('user')
-                ->selectRaw("AES_DECRYPT(password, ?) as passwd", [config('database.aes_keys.password')])
-                ->whereRaw("id_user = AES_ENCRYPT(?, ?)", [$value->id_user, config('database.aes_keys.id_user')])
-                ->value('passwd');
+            $decryptedPassword = \App\Models\MasterUser::getPasswordDecryptedById($value->nik)
+                ->first()->passwd;
 
             $user = \App\Models\User::create([
                 'name' => $value->nama,

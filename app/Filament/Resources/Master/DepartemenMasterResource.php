@@ -4,7 +4,6 @@ namespace App\Filament\Resources\Master;
 
 use App\Filament\Resources\Master\DepartemenMasterResource\Pages;
 use App\Filament\Resources\Master\DepartemenMasterResource\RelationManagers;
-use App\Models\Master\DepartemenMaster;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -15,9 +14,10 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class DepartemenMasterResource extends Resource
 {
-    protected static ?string $model = DepartemenMaster::class;
+    protected static ?string $model = \App\Models\MasterDepartemen::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static bool $shouldRegisterNavigation = false;
 
     public static function form(Form $form): Form
     {

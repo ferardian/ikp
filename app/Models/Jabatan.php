@@ -50,4 +50,9 @@ class Jabatan extends Model
      * @var array<int, string>
      */
     protected $fillable = ['kode', 'nama', 'deskripsi', 'id'];
+
+    public function scopeWhereByName($query, $name)
+    {
+        return $query->where('nama', $name);
+    }
 }

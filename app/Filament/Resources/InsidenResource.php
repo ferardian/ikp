@@ -58,11 +58,6 @@ class InsidenResource extends Resource implements HasShieldPermissions
             self::updateInsidenUnitData($record->unit_id, $record->id);
 
             return $form->schema([
-                // Section::make('Pasien')
-                //     ->description('Detail Pasien Terdampak')
-                //     ->collapsible()
-                //     ->collapsed(false)
-                //     ->schema(\App\Filament\Resources\InsidenResource\Forms\DetailPasien::make()),
 
                 Section::make('Detail Insiden')
                     ->description("Detail Insiden")
@@ -79,25 +74,12 @@ class InsidenResource extends Resource implements HasShieldPermissions
                         ...\App\Filament\Resources\InsidenResource\Forms\GradingInsiden::make()
                     ]),
 
-                // Section::make('Investigasi Sederhana')
-                //     ->description('Investigasi Sederhana Menyangkut Insiden')
-                //     ->collapsible()
-                //     ->collapsed()
-                //     ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
-
-                // Section::make('Validasi dan Kirim Laporan')
-                //     ->description('Validasi dan Kirim Laporan Insiden')
-                //     ->collapsible()
-                //     ->collapsed(false)
-                //     ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make($form))
             ]);
         } else {
             return $form
                 ->schema([
                     Wizard::make([
-                        // Step::make('pasien')
-                        //     ->label('Pasien')
-                        //     ->schema(\App\Filament\Resources\InsidenResource\Forms\DetailPasien::make()),
+
 
                         Step::make('detail-insiden')
                             ->label('Detail Insiden')
@@ -111,28 +93,17 @@ class InsidenResource extends Resource implements HasShieldPermissions
                                 ...\App\Filament\Resources\InsidenResource\Forms\GradingInsiden::make()
                             ])
                             ->afterValidation(fn($state) => self::afterValidationStepTindakanInsiden($state)),
-
-                        // Step::make('investigasi-sederhana')
-                        //     ->label('Investigasi Sederhana')
-                        //     ->schema(\App\Filament\Resources\InsidenResource\Forms\InvestigasiSederhanaInsiden::make()),
-
-                        // Step::make('validasi-dan-kirim-laporan')
-                        //     ->label('Validasi dan Kirim Laporan')
-                        //     ->schema(\App\Filament\Resources\InsidenResource\Forms\ValidasiInsiden::make($form))
                     ])->extraAlpineAttributes([
                                 '@step-pasien.window' => "step='pasien'",
                                 '@step-detail-insiden.window' => "step='detail-insiden'",
                                 '@step-tindakan-insiden.window' => "step='tindakan-insiden'",
-                                // '@step-investigasi-sederhana.window' => "step='investigasi-sederhana'",
-                                // '@step-validasi-dan-kirim-laporan.window' => "step='validasi-dan-kirim-laporan'",
                             ])->submitAction(new HtmlString(Blade::render(<<<BLADE
                     <x-filament::button
                         type="submit"
-                        size="sm"
-                    >
+                        size="sm" >
                         Submit
                     </x-filament::button>
-                BLADE
+                    BLADE
                                 )))->columnSpanFull(),
                 ]);
         }
@@ -170,10 +141,10 @@ class InsidenResource extends Resource implements HasShieldPermissions
                         abs($record->created_at->diffInHours($record->tanggal_insiden)) >= 24
                         ? 'danger'
                         : null
-                    )->limit(50)
+                    )->limit(35)
                     ->description(function (Insiden $record) {
                         if ($record->pasien) {
-                            return "Pasien : " . $record->pasien->nama;
+                            return "Pasien : " . $record->pasien->nm_pasien;
                         } else {
                             return "Pasien : " . $record->nm_pasien;
                         }
@@ -181,11 +152,7 @@ class InsidenResource extends Resource implements HasShieldPermissions
                 Tables\Columns\TextColumn::make('rca')
                     ->label("RCA")
                     ->searchable()
-                    ->view('filament.tables.columns.has-rca')
-                    ->toggleable(),
-                // Tables\Columns\TextColumn::make('pasien.penanggungBiaya.jenis_penanggung')
-                //     ->toggleable(isToggledHiddenByDefault: true)
-                //     ->searchable(),
+                    ->view('filament.tables.columns.has-rca'),
                 Tables\Columns\TextColumn::make('jenis.alias')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false)

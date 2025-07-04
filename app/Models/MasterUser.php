@@ -15,25 +15,13 @@ class MasterUser extends Model
     public $timestamps = false;
     public $incrementing = false;
 
-    protected $appends = ['username', 'passwd'];
 
-    public function getUsernameAttribute()
+    public function scopeGetPasswordDecryptedById($query, $username)
     {
-        return DB::connection($this->connection)
-            ->table($this->table)
-            ->selectRaw("AES_DECRYPT(id_user, ?) as username", [config('database.aes_keys.id_user')])
-            ->where('id_user', $this->attributes['id_user'])
-            ->value('username');
+        return $query->whereRaw("AES_DECRYPT(id_user, ?) = ?", [config('database.aes_keys.id_user'), $username])
+            ->selectRaw("AES_DECRYPT(password, ?) as passwd", [config('database.aes_keys.password')]);
     }
-
-    public function getPasswdAttribute()
-    {
-        return DB::connection($this->connection)
-            ->table($this->table)
-            ->selectRaw("AES_DECRYPT(password, ?) as passwd", [config('database.aes_keys.password')])
-            ->where('id_user', $this->attributes['id_user'])
-            ->value('passwd');
-    }
+    
 
     public function getRouteKeyName()
     {
