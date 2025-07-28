@@ -4,9 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\InsidenResource\Pages;
 use App\Helpers\AutoGradingHelper;
+use App\Models\Grading;
 use App\Models\Insiden;
 
 use BezhanSalleh\FilamentShield\Contracts\HasShieldPermissions;
+use Filament\Actions\DeleteAction;
 use Filament\Forms\Components\Section;
 use Filament\Tables;
 use Filament\Forms\Form;
@@ -20,6 +22,9 @@ use Filament\Forms\Components\Wizard;
 use Filament\Support\Exceptions\Halt;
 use Illuminate\Database\Eloquent\Builder;
 use Filament\Forms\Components\Wizard\Step;
+use Filament\Notifications\Livewire\Notifications as LivewireNotifications;
+use Filament\Notifications\Notification;
+use Illuminate\Database\Eloquent\Collection;
 
 class InsidenResource extends Resource implements HasShieldPermissions
 {
@@ -111,6 +116,7 @@ class InsidenResource extends Resource implements HasShieldPermissions
 
     public static function table(Table $table): Table
     {
+        // dd(auth()->user());
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('insiden')
@@ -217,7 +223,10 @@ class InsidenResource extends Resource implements HasShieldPermissions
             ->actions([
                 // Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\RestoreAction::make(),
+                Tables\Actions\RestoreAction::make()
+                    ->after(function (Insiden $record) {
+                        $record->grading()->restore();
+                    }),
                 Tables\Actions\ActionGroup::make([
                     Tables\Actions\Action::make('Investigasi')
                         ->icon('heroicon-o-magnifying-glass-circle')
@@ -252,13 +261,50 @@ class InsidenResource extends Resource implements HasShieldPermissions
 
 
 
-                    Tables\Actions\DeleteAction::make(),
+                    Tables\Actions\DeleteAction::make()
+                        ->before(function (Insiden $record, Tables\Actions\DeleteAction $action) {
+
+                            if ($record->rca || $record->investigasi_sederhana) {
+                                Notification::make()->warning()
+                                    ->title('Peringatan')
+                                    ->body('Insiden ini memiliki RCA atau Investigasi Sederhana, sehingga tidak dapat dihapus!')
+                                    ->icon('heroicon-s-exclamation-triangle')
+
+                                    ->send();
+                                $action->halt();
+                                return false;
+                            }
+                        })
+                        ->after(function (Insiden $record) {
+                            $record->rca()->delete();
+                            $record->grading()->delete();
+                        }),
                     Tables\Actions\ForceDeleteAction::make(),
                 ])
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+                    Tables\Actions\DeleteBulkAction::make()
+                        ->before(function (Collection $records, Tables\Actions\DeleteBulkAction $action) {
+
+                            foreach ($records as $record) {
+                                if ($record->rca || $record->investigasi_sederhana) {
+                                    Notification::make()->warning()
+                                        ->title('Peringatan')
+                                        ->body('Insiden ini memiliki RCA atau Investigasi Sederhana, sehingga tidak dapat dihapus!')
+                                        ->icon('heroicon-s-exclamation-triangle')
+                                        ->send();
+                                    $action->halt();
+                                    return false;
+                                }
+                            }
+                        })
+                        ->after(function (Collection $records) {
+                            foreach ($records as $record) {
+                                $record->rca()->delete();
+                                $record->grading()->delete();
+                            }
+                        }),
                     Tables\Actions\RestoreBulkAction::make(),
                     Tables\Actions\ForceDeleteBulkAction::make(),
                 ]),
@@ -291,8 +337,8 @@ class InsidenResource extends Resource implements HasShieldPermissions
     {
         // $query = parent::getEloquentQuery()
         //     ->with(['pasien.penanggungBiaya', 'jenis', 'unit', 'grading', 'tindakan', 'rca']);
-        $query = parent::getEloquentQuery();
-        // ->with(['pasien', 'jenis', 'unit', 'grading', 'tindakan', 'rca']);
+        $query = parent::getEloquentQuery()
+            ->with(['pasien', 'jenis', 'unit', 'grading', 'tindakan', 'rca']);
 
         // Jika user adalah pegawai, batasi data berdasarkan unitnya
         if (auth()->check() && auth()->user()->can('view_only_unit_insiden')) {

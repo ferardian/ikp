@@ -156,10 +156,10 @@ class InvestigasiSederhanaResource extends Resource
                 TextColumn::make('insiden.insiden')->label('Insiden')
                     ->limit(35)
                     ->description(function (InvestigasiSederhana $record) {
-                        if ($record->insiden->pasien) {
-                            return "Pasien : " . $record->insiden->pasien->nm_pasien;
+                        if ($record->insiden?->pasien) {
+                            return "Pasien : " . $record->insiden?->pasien?->nm_pasien;
                         } else {
-                            return "Pasien : " . $record->insiden->nm_pasien;
+                            return "Pasien : " . $record->insiden?->nm_pasien;
                         }
                     })
                     ->searchable()
