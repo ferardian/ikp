@@ -13,15 +13,15 @@
 
     <style>
         @page {
-            margin: 160px 0px 100px 0px;
+            margin: 115px 0px 100px 0px;
         }
         header {
             position: fixed;
-            top: -160px;
+            top: -115px;
             left: 0;
             right: 0;
             width: 100%;
-            height: 160px;
+            height: 115px;
         }
         header img {
             width: 100%;
