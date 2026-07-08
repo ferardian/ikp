@@ -33,13 +33,17 @@
                 <th class="label-cell" style="width: 160px;">Jenis Kelamin</th>
                 <td class="colon-cell">:</td>
                 <td class="value-cell" colspan="4">
+                    @php
+                        $isL = $insiden->pasien->jenis_kelamin == 'L';
+                        $isP = $insiden->pasien->jenis_kelamin == 'P';
+                    @endphp
                     <table class="nested-table">
                         <tr>
                             <td style="width: 150px;">
-                                <span class="dejavu">{!! $insiden->pasien->jenis_kelamin == 'L' ? '&#9745;' : '&#9744;' !!}</span> Laki-laki
+                                <span class="{{ $isL ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isL ? '&#9745;' : '&#9744;' !!}</span> Laki-laki
                             </td>
                             <td style="width: 150px;">
-                                <span class="dejavu">{!! $insiden->pasien->jenis_kelamin == 'P' ? '&#9745;' : '&#9744;' !!}</span> Perempuan
+                                <span class="{{ $isP ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isP ? '&#9745;' : '&#9744;' !!}</span> Perempuan
                             </td>
                         </tr>
                     </table>
@@ -55,8 +59,11 @@
                                 @if ($loop->index % 2 === 0)
                                     <tr>
                                 @endif
+                                        @php
+                                            $isUsia = ($insiden->pasien->tanggal_lahir && \App\Helpers\UsiaHelper::getKelompokUsia($insiden->pasien->tanggal_lahir) == $key);
+                                        @endphp
                                         <td style="width: 220px;">
-                                            <span class="dejavu">{!! ($insiden->pasien->tanggal_lahir && \App\Helpers\UsiaHelper::getKelompokUsia($insiden->pasien->tanggal_lahir) == $key) ? '&#9745;' : '&#9744;' !!}</span>
+                                            <span class="{{ $isUsia ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isUsia ? '&#9745;' : '&#9744;' !!}</span>
                                             {!! $item !!}
                                         </td>
                                 @if ($loop->index % 2 === 1 || $loop->last)
@@ -86,18 +93,18 @@
                         <tbody>
                             <tr>
                                 <td style="width: 220px;">
-                                    <span class="dejavu">{!! $isUmum ? '&#9745;' : '&#9744;' !!}</span> Pribadi
+                                    <span class="{{ $isUmum ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isUmum ? '&#9745;' : '&#9744;' !!}</span> Pribadi
                                 </td>
                                 <td style="width: 220px;">
-                                    <span class="dejavu">{!! $isBpjs ? '&#9745;' : '&#9744;' !!}</span> BPJS
+                                    <span class="{{ $isBpjs ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isBpjs ? '&#9745;' : '&#9744;' !!}</span> BPJS
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 220px;">
-                                    <span class="dejavu">{!! $isAsuransi ? '&#9745;' : '&#9744;' !!}</span> Asuransi Swasta
+                                    <span class="{{ $isAsuransi ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isAsuransi ? '&#9745;' : '&#9744;' !!}</span> Asuransi Swasta
                                 </td>
                                 <td style="width: 220px;">
-                                    <span class="dejavu">{!! $isLainnya ? '&#9745;' : '&#9744;' !!}</span> Lainnya : 
+                                    <span class="{{ $isLainnya ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isLainnya ? '&#9745;' : '&#9744;' !!}</span> Lainnya : 
                                     @if ($isLainnya)
                                         <span style="border-bottom: 1px dotted #475569; font-weight: bold;">{{ $pbName }}</span>
                                     @else

@@ -45,9 +45,10 @@
                                 'KTC'      => 'Kejadian Tidak Cedera / (Non-Sentinel Event)',
                                 'KPC'      => 'Kejadian Potensial Cedera / (Potential Event)'
                             ] as $key => $item)
+                                @php $isJenis = $insiden->jenis?->alias == $key; @endphp
                                 <tr>
                                     <td>
-                                        <span class="dejavu">{!! $insiden->jenis?->alias == $key ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                        <span class="{{ $isJenis ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isJenis ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
                                     </td>
                                 </tr>
                             @endforeach
@@ -71,8 +72,9 @@
                                 @if ($loop->index % 2 === 0)
                                     <tr>
                                 @endif
+                                        @php $isPelapor = $insiden->jenis_pelapor == $key; @endphp
                                         <td style="width: 220px;">
-                                            <span class="dejavu">{!! $insiden->jenis_pelapor == $key ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                            <span class="{{ $isPelapor ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isPelapor ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
                                         </td>
                                 @if ($loop->index % 2 === 1 || $loop->last)
                                     @if ($loop->last && $loop->index % 2 === 0)
@@ -100,8 +102,9 @@
                                 @if ($loop->index % 2 === 0)
                                     <tr>
                                 @endif
+                                        @php $isLayanan = $insiden->layanan_insiden == $key; @endphp
                                         <td style="width: 220px;">
-                                            <span class="dejavu">{!! $insiden->layanan_insiden == $key ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                            <span class="{{ $isLayanan ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isLayanan ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
                                         </td>
                                 @if ($loop->index % 2 === 1 || $loop->last)
                                     @if ($loop->last && $loop->index % 2 === 0)
@@ -143,8 +146,9 @@
                                 @if ($loop->index % 2 === 0)
                                     <tr>
                                 @endif
+                                        @php $isKasus = in_array($item, $kasus); @endphp
                                         <td style="width: 220px; padding: 2px 0;">
-                                            <span class="dejavu">{!! in_array($item, $kasus) ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                            <span class="{{ $isKasus ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isKasus ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
                                         </td>
                                 @if ($loop->index % 2 === 1 || $loop->last)
                                     @if ($loop->last && $loop->index % 2 === 0)
@@ -170,9 +174,10 @@
                                 'minor'            => 'Cedera Ringan',
                                 'tidak signifikan' => 'Tidak Cedera',
                             ] as $key => $item)
+                                @php $isDampak = $insiden->dampak_insiden == $key; @endphp
                                 <tr>
                                     <td>
-                                        <span class="dejavu">{!! $insiden->dampak_insiden == $key ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                        <span class="{{ $isDampak ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isDampak ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
                                     </td>
                                 </tr>
                             @endforeach

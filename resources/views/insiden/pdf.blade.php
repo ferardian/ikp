@@ -62,11 +62,20 @@
         .page-break {
             page-break-after: always;
         }
-        .dejavu {
+        .dejavu-unchecked {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 11pt;
-            color: #2563eb;
+            font-size: 10pt;
+            color: #94a3b8;
             vertical-align: middle;
+            display: inline-block;
+        }
+        .dejavu-checked {
+            font-family: 'DejaVu Sans', sans-serif;
+            font-size: 12.5pt;
+            font-weight: bold;
+            color: #1e40af;
+            vertical-align: middle;
+            display: inline-block;
         }
         
         /* Main content wrapper with side margins */
