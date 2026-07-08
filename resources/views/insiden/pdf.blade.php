@@ -64,8 +64,8 @@
         }
         .checkbox-box {
             display: inline-block;
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border: 1px solid #94a3b8;
             vertical-align: middle;
             margin-right: 5px;
@@ -76,8 +76,8 @@
             border: 1px solid #1e40af;
             background-color: #1e40af;
             color: #ffffff;
-            font-size: 8pt;
-            line-height: 9px;
+            font-size: 10pt;
+            line-height: 11px;
             text-align: center;
             font-weight: bold;
         }
