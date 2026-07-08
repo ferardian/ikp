@@ -173,9 +173,26 @@ class EditRootCauseAnalysis extends EditRecord
         $this->redirect(RootCauseAnalysisResource::getUrl('index'));
     }
 
+    public function saveDraft(): void
+    {
+        $data = $this->form->getRawState();
+
+        $this->record->update($data);
+
+        Notification::make()
+            ->title('Draft berhasil disimpan!')
+            ->success()
+            ->send();
+    }
+
     protected function getHeaderActions(): array
     {
         return [
+            \Filament\Actions\Action::make('saveDraft')
+                ->label('Simpan Draft')
+                ->color('warning')
+                ->icon('heroicon-o-document-duplicate')
+                ->action(fn () => $this->saveDraft()),
             DeleteAction::make(),
         ];
     }

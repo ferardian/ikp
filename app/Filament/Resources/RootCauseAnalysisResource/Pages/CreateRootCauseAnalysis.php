@@ -150,10 +150,44 @@ class CreateRootCauseAnalysis extends CreateRecord
         $this->redirect(RootCauseAnalysisResource::getUrl('index'));
     }
 
+    public function saveDraft(): void
+    {
+        $data = $this->form->getRawState();
+
+        $draftData = [
+            'insiden_id' => $this->insiden->id,
+            'ketua_id' => $data['ketua_id'] ?? auth()->id(),
+            'area_terwakili' => $data['area_terwakili'] ?? 0,
+            'pengetahuan_terwakili' => $data['pengetahuan_terwakili'] ?? 0,
+            'tanggal_mulai_investigasi' => $data['tanggal_mulai_investigasi'] ?? now()->format('Y-m-d'),
+        ];
+
+        $saveData = array_merge($data, $draftData);
+
+        $rca = RootCauseAnalysis::where('insiden_id', $this->insiden->id)->first();
+
+        if ($rca) {
+            $rca->update($saveData);
+        } else {
+            $rca = RootCauseAnalysis::create($saveData);
+        }
+
+        $this->record = $rca;
+
+        Notification::make()
+            ->title('Draft berhasil disimpan!')
+            ->success()
+            ->send();
+    }
+
     protected function getHeaderActions(): array
     {
         return [
-
+            \Filament\Actions\Action::make('saveDraft')
+                ->label('Simpan Draft')
+                ->color('warning')
+                ->icon('heroicon-o-document-duplicate')
+                ->action(fn () => $this->saveDraft()),
         ];
     }
 }
