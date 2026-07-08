@@ -13,15 +13,15 @@
 
     <style>
         @page {
-            margin: 115px 0px 100px 0px;
+            margin: 110px 0px 55px 0px;
         }
         header {
             position: fixed;
-            top: -115px;
+            top: -110px;
             left: 0;
             right: 0;
             width: 100%;
-            height: 115px;
+            height: 110px;
         }
         header img {
             width: 100%;
@@ -33,11 +33,11 @@
         }
         footer {
             position: fixed;
-            bottom: -100px;
+            bottom: -55px;
             left: 0;
             right: 0;
             width: 100%;
-            height: 100px;
+            height: 55px;
         }
         footer img {
             width: 100%;
@@ -85,13 +85,13 @@
             font-weight: bold;
             font-size: 9pt;
             border-radius: 6px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             letter-spacing: 0.5px;
         }
 
         /* Section styling */
         .section-container {
-            margin-bottom: 25px;
+            margin-bottom: 15px;
         }
         .section-header-large {
             font-size: 16pt;
@@ -106,7 +106,7 @@
             color: #1e3a8a;
             border-bottom: 1.5px solid #cbd5e1;
             padding-bottom: 4px;
-            margin-bottom: 12px;
+            margin-bottom: 10px;
         }
         .section-number {
             color: #3b82f6;
@@ -117,10 +117,10 @@
         .info-table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         .info-table td, .info-table th {
-            padding: 6px 8px;
+            padding: 4px 6px;
             vertical-align: top;
         }
         .info-table tr {
