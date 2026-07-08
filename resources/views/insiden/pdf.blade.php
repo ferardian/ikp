@@ -23,6 +23,14 @@
             width: 100%;
             height: 160px;
         }
+        header img {
+            width: 100%;
+            height: auto;
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+        }
         footer {
             position: fixed;
             bottom: -100px;
@@ -31,9 +39,12 @@
             width: 100%;
             height: 100px;
         }
-        header img, footer img {
+        footer img {
             width: 100%;
             height: auto;
+            position: absolute;
+            bottom: 0;
+            left: 0;
             display: block;
         }
         body {
