@@ -16,4 +16,9 @@ class ListInsidens extends ListRecords
             Actions\CreateAction::make(),
         ];
     }
+
+    public function getMaxContentWidth(): string
+    {
+        return 'full';
+    }
 }
