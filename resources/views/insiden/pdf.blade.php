@@ -13,7 +13,28 @@
 
     <style>
         @page {
-            margin: 1.2cm 1.5cm;
+            margin: 160px 0px 100px 0px;
+        }
+        header {
+            position: fixed;
+            top: -160px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 160px;
+        }
+        footer {
+            position: fixed;
+            bottom: -100px;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100px;
+        }
+        header img, footer img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
         body {
             font-family: 'Helvetica', 'Arial', sans-serif;
@@ -37,6 +58,12 @@
             vertical-align: middle;
         }
         
+        /* Main content wrapper with side margins */
+        .main {
+            margin-left: 1.5cm;
+            margin-right: 1.5cm;
+        }
+
         /* Banner Rahasia */
         .confidential-banner {
             background-color: #fef2f2;
@@ -123,58 +150,31 @@
 </head>
 
 <body>
-    <!-- Kop Surat -->
-    <div style="text-align: center; margin-bottom: 20px; border-bottom: 3px double #1e3a8a; padding-bottom: 5px;">
-        <img src="{{ public_path('images/header.png') }}" style="width: 100%; height: auto; display: block;">
-    </div>
+    <!-- Header & Footer -->
+    <header>
+        <img src="{{ public_path('images/header.png') }}" alt="Kop Header">
+    </header>
 
-    <div style="margin-bottom: 20px;">
-        <h1 class="section-header-large" style="margin-bottom: 4px;">LAPORAN INSIDEN KESELAMATAN PASIEN</h1>
-        <h2 style="font-size: 12pt; text-align: center; color: #475569; font-weight: normal;">(INTERNAL REPORT)</h2>
-    </div>
-
-    <div class="confidential-banner">
-        RAHASIA, TIDAK BOLEH DIFOTOCOPY, DILAPORKAN MAKSIMAL 2 x 24 JAM
-    </div>
+    <footer>
+        <img src="{{ public_path('images/footer.png') }}" alt="Kop Footer">
+    </footer>
 
     <div class="main font-medium">
+        <div style="margin-bottom: 20px;">
+            <h1 class="section-header-large" style="margin-bottom: 4px;">LAPORAN INSIDEN KESELAMATAN PASIEN</h1>
+            <h2 style="font-size: 12pt; text-align: center; color: #475569; font-weight: normal;">(INTERNAL REPORT)</h2>
+        </div>
+
+        <div class="confidential-banner">
+            RAHASIA, TIDAK BOLEH DIFOTOCOPY, DILAPORKAN MAKSIMAL 2 x 24 JAM
+        </div>
+
         @include('insiden.partials.pasien')
         @include('insiden.partials.insiden')
         @include('insiden.partials.tindakan')
         @include('insiden.partials.grading')
         @include('insiden.partials.investigasi-sederhana')
         @include('insiden.partials.rca.base')
-                
-        {{-- <div class="ml-8 mt-1">
-            <table class="table w-full" style="font-size: 12pt; font-weight: normal;">
-                <tr>
-                    <td class="w-full">
-                        <p class="font-bold">Pembuat Laporan</p>
-                        <p class="text-xs">{{ $insiden->created_at?->translatedFormat('l, d F Y') }}</p>
-
-                        @if ($insiden->created_sign)
-                            <img class="h-[100px]" src="{{ asset('storage/'.$insiden->created_sign) }}">
-                        @else
-                            <div style="padding-top: 50px; padding-bottom: 50px;"></div>
-                        @endif
-
-                        <p class="font-bold text-sm">{{ $insiden->oleh->name }}</p>
-                    </td>
-                    <td class="w-full">
-                        <p class="font-bold">Penerima Laporan</p>
-                        <p class="text-xs">{{ $insiden->received_at?->translatedFormat('d F Y') ?? '-'}}</p>
-
-                        @if ($insiden->received_sign)
-                            <img class="h-[100px]" src="{{ asset('storage/'.$insiden->received_sign) }}">
-                        @else
-                            <div style="padding-top: 50px; padding-bottom: 50px;"></div>
-                        @endif
-
-                        <p class="font-bold">{{ $insiden->penerima->name ?? '-' }}</p>
-                    </td>
-                </tr>
-            </table>
-        </div> --}}
     </div>
 </body>
 
