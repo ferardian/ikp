@@ -99,6 +99,75 @@ class Pasien extends Model
     //     'email',
     // ];
 
+    public function getNamaAttribute()
+    {
+        return $this->attributes['nm_pasien'] ?? null;
+    }
+
+    public function setNamaAttribute($value)
+    {
+        $this->attributes['nm_pasien'] = $value;
+    }
+
+    public function getNoRekamMedisAttribute()
+    {
+        return $this->attributes['no_rkm_medis'] ?? null;
+    }
+
+    public function setNoRekamMedisAttribute($value)
+    {
+        $this->attributes['no_rkm_medis'] = $value;
+    }
+
+    public function getTanggalLahirAttribute()
+    {
+        return isset($this->attributes['tgl_lahir']) ? \Carbon\Carbon::parse($this->attributes['tgl_lahir']) : null;
+    }
+
+    public function setTanggalLahirAttribute($value)
+    {
+        $this->attributes['tgl_lahir'] = $value;
+    }
+
+    public function getJenisKelaminAttribute()
+    {
+        return $this->attributes['jk'] ?? null;
+    }
+
+    public function setJenisKelaminAttribute($value)
+    {
+        $this->attributes['jk'] = $value;
+    }
+
+    public function getTempatLahirAttribute()
+    {
+        return $this->attributes['tmp_lahir'] ?? null;
+    }
+
+    public function setTempatLahirAttribute($value)
+    {
+        $this->attributes['tmp_lahir'] = $value;
+    }
+
+    public function getNoTelpAttribute()
+    {
+        return $this->attributes['no_tlp'] ?? null;
+    }
+
+    public function setNoTelpAttribute($value)
+    {
+        $this->attributes['no_tlp'] = $value;
+    }
+
+    public function getNikAttribute()
+    {
+        return $this->attributes['no_ktp'] ?? null;
+    }
+
+    public function setNikAttribute($value)
+    {
+        $this->attributes['no_ktp'] = $value;
+    }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -116,3 +185,4 @@ class Pasien extends Model
         return $this->hasMany(\App\Models\Insiden::class, 'id', 'pasien_id');
     }
 }
+

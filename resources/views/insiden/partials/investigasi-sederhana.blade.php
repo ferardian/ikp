@@ -2,94 +2,64 @@
     <div class="page-break"></div>
     
     {{-- Investigasi Sederhana --}}
-    <div class="mb-8">
-        <div class="mb-4">
-            <h1 class="text-xl font-bold text-center">INVESTIGASI SEDERHANA</h1>
+    <div class="section-container">
+        <div style="margin-bottom: 20px;">
+            <h1 class="section-header-large" style="margin-bottom: 4px;">LAPORAN INVESTIGASI SEDERHANA</h1>
+            <h2 style="font-size: 11pt; text-align: center; color: #475569; font-weight: normal;">(SIMPLE INVESTIGATION REPORT)</h2>
         </div>
 
-        <div class="ml-8 mt-1">
-            <table class="table w-full" style="font-size: 12pt; font-weight: normal;">
-                <tbody>
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Manager / Kepala Bagian / Kepala Unit</th>
-                        <td class="leading-none py-2 m-0" colspan="3">: {{ $insiden->investigasi_sederhana?->kepala?->name }}</td>
-                    </tr>
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Penyebab Insiden Langsung</th>
-                        <td class="leading-none py-2 m-0" colspan="3">
-                            <table class="w-fit">
-                                <tr class="align-top">
-                                    <td style="width: 7px;">:</td>
-                                    <td>{{ $insiden->investigasi_sederhana?->penyebab_insiden }}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Penyebab yang Melatarbelakangi Insiden</th>
-                        <td class="leading-none py-2 m-0" colspan="3">
-                            <table class="w-fit">
-                                <tr class="align-top">
-                                    <td style="width: 7px;">:</td>
-                                    <td>{{ $insiden->investigasi_sederhana?->penyebab_melatarbelakangi }}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
+        <table class="info-table">
+            <tbody>
+                <tr>
+                    <th class="label-cell" style="width: 240px;">Manager / Kabag / Kepala Unit</th>
+                    <td class="colon-cell">:</td>
+                    <td class="value-cell" colspan="4">{{ $insiden->investigasi_sederhana?->kepala?->name }}</td>
+                </tr>
+                <tr>
+                    <th class="label-cell" style="width: 240px; vertical-align: top;">Penyebab Insiden Langsung</th>
+                    <td class="colon-cell" style="vertical-align: top;">:</td>
+                    <td class="value-cell" colspan="4" style="line-height: 1.6; text-align: justify;">{{ $insiden->investigasi_sederhana?->penyebab_insiden }}</td>
+                </tr>
+                <tr>
+                    <th class="label-cell" style="width: 240px; vertical-align: top;">Penyebab yang Melatarbelakangi</th>
+                    <td class="colon-cell" style="vertical-align: top;">:</td>
+                    <td class="value-cell" colspan="4" style="line-height: 1.6; text-align: justify;">{{ $insiden->investigasi_sederhana?->penyebab_melatarbelakangi }}</td>
+                </tr>
 
-                    <tr class="align-top border-b">
-                        <td colspan="4" style="background-color: #fff;">
-                            <div class="text-center mt-4">REKOMENDASI</div>
-                        </td>
-                    </tr>
+                <tr>
+                    <td colspan="6" style="padding: 15px 0 5px 0;">
+                        <div style="font-weight: bold; color: #1e3a8a; border-bottom: 1.5px solid #cbd5e1; padding-bottom: 4px; font-size: 11pt;">REKOMENDASI & TINDAKAN</div>
+                    </td>
+                </tr>
 
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Rekomendasi</th>
-                        <td class="leading-none py-2 m-0" colspan="3">
-                            <table class="w-fit">
-                                <tr class="align-top">
-                                    <td style="width: 7px;">:</td>
-                                    <td>{!! $insiden->investigasi_sederhana?->rekomendasi !!}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Direkomendasikan Oleh</th>
-                        <td class="leading-none py-2 m-0" colspan="3">: {{ $insiden->investigasi_sederhana?->pj_rekomendasi?->name }}</td>
-                    </tr>
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Tanggal Rekomendasi Diberikan</th>
-                        <td class="leading-none py-2 m-0" colspan="3">: {{ $insiden->investigasi_sederhana?->tanggal_rekomendasi?->translatedFormat('d F Y') }}</td>
-                    </tr>
+                <tr>
+                    <th class="label-cell" style="width: 240px; vertical-align: top;">Rekomendasi</th>
+                    <td class="colon-cell" style="vertical-align: top;">:</td>
+                    <td class="value-cell" colspan="4" style="line-height: 1.6; text-align: justify;">{!! $insiden->investigasi_sederhana?->rekomendasi !!}</td>
+                </tr>
+                <tr>
+                    <th class="label-cell" style="width: 240px;">Direkomendasikan Oleh</th>
+                    <td class="colon-cell">:</td>
+                    <td class="value-cell" style="width: 200px;">{{ $insiden->investigasi_sederhana?->pj_rekomendasi?->name }}</td>
+                    <th class="label-cell" style="width: 80px;">Tanggal</th>
+                    <td class="colon-cell">:</td>
+                    <td class="value-cell">{{ $insiden->investigasi_sederhana?->tanggal_rekomendasi ? $insiden->investigasi_sederhana?->tanggal_rekomendasi->translatedFormat('d F Y') : '-' }}</td>
+                </tr>
 
-                    <tr class="align-top border-b">
-                        <td colspan="4" style="background-color: #fff;">
-                            <div class="text-center mt-4">TINDAKAN</div>
-                        </td>
-                    </tr>
-
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Tindakan</th>
-                        <td class="leading-none py-2 m-0" colspan="3">
-                            <table class="w-fit">
-                                <tr class="align-top">
-                                    <td style="width: 7px;">:</td>
-                                    <td>{!! $insiden->investigasi_sederhana?->tindakan_rekomendasi !!}</td>
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Ditindak Oleh</th>
-                        <td class="leading-none py-2 m-0" colspan="3">: {{ $insiden->investigasi_sederhana?->pj_tindakan?->name }}</td>
-                    </tr>
-                    <tr class="align-top border-b">
-                        <th class="text-left leading-none py-2 m-0" style="width: 150px;">Tanggal Tindak Lanjut</th>
-                        <td class="leading-none py-2 m-0" colspan="3">: {{ $insiden->investigasi_sederhana?->tanggal_tindakan?->translatedFormat('d F Y') }}</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+                <tr>
+                    <th class="label-cell" style="width: 240px; vertical-align: top;">Tindakan Rekomendasi</th>
+                    <td class="colon-cell" style="vertical-align: top;">:</td>
+                    <td class="value-cell" colspan="4" style="line-height: 1.6; text-align: justify;">{!! $insiden->investigasi_sederhana?->tindakan_rekomendasi !!}</td>
+                </tr>
+                <tr>
+                    <th class="label-cell" style="width: 240px;">Ditindak Lanjuti Oleh</th>
+                    <td class="colon-cell">:</td>
+                    <td class="value-cell" style="width: 200px;">{{ $insiden->investigasi_sederhana?->pj_tindakan?->name }}</td>
+                    <th class="label-cell" style="width: 80px;">Tanggal</th>
+                    <td class="colon-cell">:</td>
+                    <td class="value-cell">{{ $insiden->investigasi_sederhana?->tanggal_tindakan ? $insiden->investigasi_sederhana?->tanggal_tindakan->translatedFormat('d F Y') : '-' }}</td>
+                </tr>
+            </tbody>
+        </table>
     </div> 
 @endif

@@ -12,18 +12,124 @@
     {{-- <link rel="stylesheet" href="{{ Vite::asset('resources/css/pdf.css') }}"> --}}
 
     <style>
-        body { font-family: 'Times New Roman', Times, serif; margin: 0; padding: 0; } @page { margin: 1cm; } .dejavu { font-family: 'DejaVu Sans', sans-serif } .page-break { page-break-after: always }
+        @page {
+            margin: 1.2cm 1.5cm;
+        }
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            color: #334155;
+            line-height: 1.45;
+            font-size: 9.5pt;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2, h3, h4 {
+            color: #0f172a;
+            margin: 0;
+        }
+        .page-break {
+            page-break-after: always;
+        }
+        .dejavu {
+            font-family: 'DejaVu Sans', sans-serif;
+            font-size: 11pt;
+            color: #2563eb;
+            vertical-align: middle;
+        }
+        
+        /* Banner Rahasia */
+        .confidential-banner {
+            background-color: #fef2f2;
+            border: 1px dashed #fee2e2;
+            color: #ef4444;
+            padding: 8px 12px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 9pt;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            letter-spacing: 0.5px;
+        }
+
+        /* Section styling */
+        .section-container {
+            margin-bottom: 25px;
+        }
+        .section-header-large {
+            font-size: 16pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            letter-spacing: 0.5px;
+            text-align: center;
+        }
+        .section-header {
+            font-size: 11pt;
+            font-weight: bold;
+            color: #1e3a8a;
+            border-bottom: 1.5px solid #cbd5e1;
+            padding-bottom: 4px;
+            margin-bottom: 12px;
+        }
+        .section-number {
+            color: #3b82f6;
+            margin-right: 6px;
+        }
+
+        /* Info table */
+        .info-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        .info-table td, .info-table th {
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+        .info-table tr {
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .info-table tr:last-child {
+            border-bottom: none;
+        }
+        .label-cell {
+            font-weight: bold;
+            color: #475569;
+            text-align: left;
+            font-size: 9.5pt;
+        }
+        .colon-cell {
+            width: 12px;
+            text-align: center;
+            color: #94a3b8;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+        .value-cell {
+            color: #0f172a;
+        }
+
+        /* Nested tables for checkboxes */
+        .nested-table {
+            width: 100%;
+            border-collapse: collapse;
+            border: none;
+        }
+        .nested-table td {
+            padding: 2px 0 !important;
+            border: none !important;
+            vertical-align: middle;
+        }
     </style>
 </head>
 
 <body>
-    <div class="mb-4">
-        <h1 class="text-xl font-bold text-center">LAPORAN INSIDEN</h1>
-        <h1 class="text-base text-center">(INTERNAL)</h1>
+    <div style="margin-bottom: 20px;">
+        <h1 class="section-header-large" style="margin-bottom: 4px;">LAPORAN INSIDEN KESELAMATAN PASIEN</h1>
+        <h2 style="font-size: 12pt; text-align: center; color: #475569; font-weight: normal;">(INTERNAL REPORT)</h2>
     </div>
 
-    <div class="w-full border-2 rounded-lg p-1 text-center mb-4 bg-yellow-50 border-yellow-100">
-        <p class="text-center">RAHASIA, TIDAK BOLEH DIFOTOCOPY, DILAPORKAN MAKSIMAL 2 x 24 JAM</p>
+    <div class="confidential-banner">
+        RAHASIA, TIDAK BOLEH DIFOTOCOPY, DILAPORKAN MAKSIMAL 2 x 24 JAM
     </div>
 
     <div class="main font-medium">
