@@ -40,10 +40,18 @@
                     <table class="nested-table">
                         <tr>
                             <td style="width: 150px;">
-                                <span class="{{ $isL ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isL ? '&#9745;' : '&#9744;' !!}</span> Laki-laki
+                                @if ($isL)
+                                    <span class="checkbox-box checked">&#10003;</span> Laki-laki
+                                @else
+                                    <span class="checkbox-box"></span> Laki-laki
+                                @endif
                             </td>
                             <td style="width: 150px;">
-                                <span class="{{ $isP ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isP ? '&#9745;' : '&#9744;' !!}</span> Perempuan
+                                @if ($isP)
+                                    <span class="checkbox-box checked">&#10003;</span> Perempuan
+                                @else
+                                    <span class="checkbox-box"></span> Perempuan
+                                @endif
                             </td>
                         </tr>
                     </table>
@@ -63,7 +71,11 @@
                                             $isUsia = ($insiden->pasien->tanggal_lahir && \App\Helpers\UsiaHelper::getKelompokUsia($insiden->pasien->tanggal_lahir) == $key);
                                         @endphp
                                         <td style="width: 220px;">
-                                            <span class="{{ $isUsia ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isUsia ? '&#9745;' : '&#9744;' !!}</span>
+                                            @if ($isUsia)
+                                                <span class="checkbox-box checked">&#10003;</span>
+                                            @else
+                                                <span class="checkbox-box"></span>
+                                            @endif
                                             {!! $item !!}
                                         </td>
                                 @if ($loop->index % 2 === 1 || $loop->last)
@@ -93,18 +105,38 @@
                         <tbody>
                             <tr>
                                 <td style="width: 220px;">
-                                    <span class="{{ $isUmum ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isUmum ? '&#9745;' : '&#9744;' !!}</span> Pribadi
+                                    @if ($isUmum)
+                                        <span class="checkbox-box checked">&#10003;</span>
+                                    @else
+                                        <span class="checkbox-box"></span>
+                                    @endif
+                                    Pribadi
                                 </td>
                                 <td style="width: 220px;">
-                                    <span class="{{ $isBpjs ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isBpjs ? '&#9745;' : '&#9744;' !!}</span> BPJS
+                                    @if ($isBpjs)
+                                        <span class="checkbox-box checked">&#10003;</span>
+                                    @else
+                                        <span class="checkbox-box"></span>
+                                    @endif
+                                    BPJS
                                 </td>
                             </tr>
                             <tr>
                                 <td style="width: 220px;">
-                                    <span class="{{ $isAsuransi ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isAsuransi ? '&#9745;' : '&#9744;' !!}</span> Asuransi Swasta
+                                    @if ($isAsuransi)
+                                        <span class="checkbox-box checked">&#10003;</span>
+                                    @else
+                                        <span class="checkbox-box"></span>
+                                    @endif
+                                    Asuransi Swasta
                                 </td>
                                 <td style="width: 220px;">
-                                    <span class="{{ $isLainnya ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isLainnya ? '&#9745;' : '&#9744;' !!}</span> Lainnya : 
+                                    @if ($isLainnya)
+                                        <span class="checkbox-box checked">&#10003;</span>
+                                    @else
+                                        <span class="checkbox-box"></span>
+                                    @endif
+                                    Lainnya : 
                                     @if ($isLainnya)
                                         <span style="border-bottom: 1px dotted #475569; font-weight: bold;">{{ $pbName }}</span>
                                     @else

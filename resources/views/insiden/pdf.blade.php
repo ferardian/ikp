@@ -62,16 +62,24 @@
         .page-break {
             page-break-after: always;
         }
-        .dejavu-unchecked {
-            font-family: 'DejaVu Sans', sans-serif;
-            font-size: 10pt;
-            color: #94a3b8;
+        .checkbox-box {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 1px solid #94a3b8;
+            vertical-align: middle;
+            margin-right: 5px;
+            background-color: #ffffff;
         }
-        .dejavu-checked {
+        .checkbox-box.checked {
             font-family: 'DejaVu Sans', sans-serif;
-            font-size: 10.5pt;
+            border: 1px solid #1e40af;
+            background-color: #1e40af;
+            color: #ffffff;
+            font-size: 8pt;
+            line-height: 9px;
+            text-align: center;
             font-weight: bold;
-            color: #1e40af;
         }
         
         /* Main content wrapper with side margins */

@@ -48,7 +48,12 @@
                                 @php $isJenis = $insiden->jenis?->alias == $key; @endphp
                                 <tr>
                                     <td>
-                                        <span class="{{ $isJenis ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isJenis ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                        @if ($isJenis)
+                                            <span class="checkbox-box checked">&#10003;</span>
+                                        @else
+                                            <span class="checkbox-box"></span>
+                                        @endif
+                                        {!! $item !!}
                                     </td>
                                 </tr>
                             @endforeach
@@ -74,7 +79,12 @@
                                 @endif
                                         @php $isPelapor = $insiden->jenis_pelapor == $key; @endphp
                                         <td style="width: 220px;">
-                                            <span class="{{ $isPelapor ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isPelapor ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                            @if ($isPelapor)
+                                                <span class="checkbox-box checked">&#10003;</span>
+                                            @else
+                                                <span class="checkbox-box"></span>
+                                            @endif
+                                            {!! $item !!}
                                         </td>
                                 @if ($loop->index % 2 === 1 || $loop->last)
                                     @if ($loop->last && $loop->index % 2 === 0)
@@ -104,7 +114,12 @@
                                 @endif
                                         @php $isLayanan = $insiden->layanan_insiden == $key; @endphp
                                         <td style="width: 220px;">
-                                            <span class="{{ $isLayanan ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isLayanan ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                            @if ($isLayanan)
+                                                <span class="checkbox-box checked">&#10003;</span>
+                                            @else
+                                                <span class="checkbox-box"></span>
+                                            @endif
+                                            {!! $item !!}
                                         </td>
                                 @if ($loop->index % 2 === 1 || $loop->last)
                                     @if ($loop->last && $loop->index % 2 === 0)
@@ -148,7 +163,12 @@
                                 @endif
                                         @php $isKasus = in_array($item, $kasus); @endphp
                                         <td style="width: 220px; padding: 2px 0;">
-                                            <span class="{{ $isKasus ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isKasus ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                            @if ($isKasus)
+                                                <span class="checkbox-box checked">&#10003;</span>
+                                            @else
+                                                <span class="checkbox-box"></span>
+                                            @endif
+                                            {!! $item !!}
                                         </td>
                                 @if ($loop->index % 2 === 1 || $loop->last)
                                     @if ($loop->last && $loop->index % 2 === 0)
@@ -177,7 +197,12 @@
                                 @php $isDampak = $insiden->dampak_insiden == $key; @endphp
                                 <tr>
                                     <td>
-                                        <span class="{{ $isDampak ? 'dejavu-checked' : 'dejavu-unchecked' }}">{!! $isDampak ? '&#9745;' : '&#9744;' !!}</span> {!! $item !!}
+                                        @if ($isDampak)
+                                            <span class="checkbox-box checked">&#10003;</span>
+                                        @else
+                                            <span class="checkbox-box"></span>
+                                        @endif
+                                        {!! $item !!}
                                     </td>
                                 </tr>
                             @endforeach
