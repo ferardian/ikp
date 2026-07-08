@@ -123,6 +123,11 @@
 </head>
 
 <body>
+    <!-- Kop Surat -->
+    <div style="text-align: center; margin-bottom: 20px; border-bottom: 3px double #1e3a8a; padding-bottom: 5px;">
+        <img src="{{ public_path('images/header.png') }}" style="width: 100%; height: auto; display: block;">
+    </div>
+
     <div style="margin-bottom: 20px;">
         <h1 class="section-header-large" style="margin-bottom: 4px;">LAPORAN INSIDEN KESELAMATAN PASIEN</h1>
         <h2 style="font-size: 12pt; text-align: center; color: #475569; font-weight: normal;">(INTERNAL REPORT)</h2>
