@@ -26,8 +26,9 @@ class InsidenLookupWidget extends Widget
     protected int | string | array $columnSpan = 'full';
 
     #[On('open-insiden-lookup')]
-    public function openLookup(array $params)
+    public function openLookup($params = [])
     {
+        $params = is_array($params) ? $params : [];
         $type = $params['type'] ?? 'total';
         $title = $params['title'] ?? '';
         $id = $params['id'] ?? null;
