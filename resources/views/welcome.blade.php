@@ -12,17 +12,51 @@
 
     <!-- Styles / Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <style>
+        .nav-header {
+            padding: 12px !important;
+        }
+        .nav-logo {
+            max-width: 120px !important;
+            max-height: 28px !important;
+            width: auto !important;
+            height: auto !important;
+        }
+        .nav-btn-login {
+            font-size: 11px !important;
+            padding: 6px 12px !important;
+        }
+        @media (min-width: 640px) {
+            .nav-header {
+                padding: 24px !important;
+            }
+            .nav-logo {
+                max-width: 180px !important;
+                max-height: 40px !important;
+            }
+            .nav-btn-login {
+                font-size: 16px !important;
+                padding: 12px 20px !important;
+            }
+        }
+        @media (min-width: 1280px) {
+            .nav-logo {
+                max-width: 270px !important;
+                max-height: 50px !important;
+            }
+        }
+    </style>
 </head>
 
 <body class="font-poppins antialiased bg-[#F2F7FF] min-h-[100svh]">
 {{-- navigation --}}
-<nav class="flex items-center justify-between p-3 sm:p-6 bg-[#F2F7FF]">
+<nav class="flex items-center justify-between bg-[#F2F7FF] nav-header">
     {{-- logo, menu center, login button --}}
     <div class="flex items-center justify-between w-full max-w-7xl mx-auto">
         <div class="flex items-center">
             {{-- logo --}}
             <a href="{{ env('APP_URL') }}" class="text-xl font-semibold text-black">
-                <img src="{{ $settings->logo ? asset('/storage/' . $settings->logo) : asset('/images/logo.png') }}" alt="Logo" class="max-w-[130px] sm:max-w-[180px] xl:max-w-[270px] max-h-[30px] sm:max-h-[40px] lg:max-h-[50px]" />
+                <img src="{{ $settings->logo ? asset('/storage/' . $settings->logo) : asset('/images/logo.png') }}" alt="Logo" class="nav-logo" />
             </a>
         </div>
 
@@ -30,12 +64,12 @@
             {{-- login button --}}
             @if (Route::has('filament.app.auth.login'))
                 @auth
-                    <a href="{{ route('filament.app.pages.dashboard') }}" class="text-xs sm:text-base md:text-lg leading-none text-white rounded-full px-3 py-1.5 sm:px-5 sm:py-3 flex items-center justify-center gap-1.5 sm:gap-3 bg-gradient-to-br from-[#3A8EF6] to-[#6F3AFA] shadow-lg shadow-gray-400/50 hover:-translate-y-0.5 transition-all duration-300">
+                    <a href="{{ route('filament.app.pages.dashboard') }}" class="leading-none text-white rounded-full flex items-center justify-center gap-1.5 bg-gradient-to-br from-[#3A8EF6] to-[#6F3AFA] shadow-lg shadow-gray-400/50 hover:-translate-y-0.5 transition-all duration-300 nav-btn-login">
                         <x-icons.category class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-white" />
                         <span class="mb-0.5">Dashboard</span>
                     </a>
                 @else
-                    <a href="{{ route('filament.app.auth.login') }}" class="text-xs sm:text-base md:text-lg leading-none text-white rounded-full px-3 py-1.5 sm:px-5 sm:py-3 flex items-center justify-center gap-1.5 sm:gap-3 bg-gradient-to-br from-[#3A8EF6] to-[#6F3AFA] shadow-lg shadow-gray-400/50 hover:-translate-y-0.5 transition-all duration-300">
+                    <a href="{{ route('filament.app.auth.login') }}" class="leading-none text-white rounded-full flex items-center justify-center gap-1.5 bg-gradient-to-br from-[#3A8EF6] to-[#6F3AFA] shadow-lg shadow-gray-400/50 hover:-translate-y-0.5 transition-all duration-300 nav-btn-login">
                         <x-icons.login class="w-3.5 h-3.5 sm:w-5 sm:h-5 text-white" />
                         <span class="mb-0.5">Login</span>
                     </a>
