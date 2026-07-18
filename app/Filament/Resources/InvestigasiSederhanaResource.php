@@ -135,12 +135,39 @@ class InvestigasiSederhanaResource extends Resource
 
     public static function getIdInsiden(Form|null $form)
     {
-        if (request()->has('insiden')) {
+        if (request()->filled('insiden')) {
             return request()->get('insiden');
         }
 
-        return $form?->getRecord()?->insiden_id;
+        if (request()->filled('insiden_id')) {
+            return request()->input('insiden_id');
+        }
 
+        if (request()->filled('data.insiden_id')) {
+            return request()->input('data.insiden_id');
+        }
+
+        $livewire = $form?->getLivewire();
+        if ($livewire && isset($livewire->data) && is_array($livewire->data) && !empty($livewire->data['insiden_id'])) {
+            return $livewire->data['insiden_id'];
+        }
+
+        $record = $form?->getRecord();
+        if ($record && !empty($record->insiden_id)) {
+            return $record->insiden_id;
+        }
+
+        $recordRoute = request()->route('record');
+        if ($recordRoute) {
+            if ($recordRoute instanceof \App\Models\InvestigasiSederhana) {
+                return $recordRoute->insiden_id;
+            }
+            if (is_numeric($recordRoute)) {
+                return \App\Models\InvestigasiSederhana::find($recordRoute)?->insiden_id;
+            }
+        }
+
+        return null;
     }
 
     // public static function canCreate(): bool
