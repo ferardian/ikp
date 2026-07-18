@@ -155,10 +155,22 @@ class InsidenResource extends Resource implements HasShieldPermissions
                             return "Pasien : " . $record->nm_pasien;
                         }
                     }),
-                Tables\Columns\TextColumn::make('rca')
-                    ->label("RCA")
-                    ->searchable()
-                    ->view('filament.tables.columns.has-rca'),
+                Tables\Columns\IconColumn::make('investigasi_sederhana')
+                    ->label('Investigasi')
+                    ->boolean()
+                    ->getStateUsing(fn (Insiden $record): bool => $record->investigasi_sederhana !== null)
+                    ->trueIcon('heroicon-s-check-circle')
+                    ->falseIcon('heroicon-s-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
+                Tables\Columns\IconColumn::make('rca')
+                    ->label('RCA')
+                    ->boolean()
+                    ->getStateUsing(fn (Insiden $record): bool => $record->rca !== null)
+                    ->trueIcon('heroicon-s-check-circle')
+                    ->falseIcon('heroicon-s-x-circle')
+                    ->trueColor('success')
+                    ->falseColor('danger'),
                 Tables\Columns\TextColumn::make('jenis.alias')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false)
@@ -206,6 +218,25 @@ class InsidenResource extends Resource implements HasShieldPermissions
                             return $query->whereHas('rca');
                         } else if ($data['value'] == 'tidak') {
                             return $query->whereDoesntHave('rca');
+                        } else {
+                            return $query;
+                        }
+                    }),
+                Tables\Filters\SelectFilter::make('hasInvestigasi')
+                    ->label('Investigasi')
+                    ->options([
+                        'ada' => 'Ada',
+                        'tidak' => 'Tidak Ada'
+                    ])
+                    ->query(function (Builder $query, array $data) {
+                        if (empty($data['value'])) {
+                            return $query;
+                        }
+
+                        if ($data['value'] == 'ada') {
+                            return $query->whereHas('investigasi_sederhana');
+                        } else if ($data['value'] == 'tidak') {
+                            return $query->whereDoesntHave('investigasi_sederhana');
                         } else {
                             return $query;
                         }
@@ -338,7 +369,7 @@ class InsidenResource extends Resource implements HasShieldPermissions
         // $query = parent::getEloquentQuery()
         //     ->with(['pasien.penanggungBiaya', 'jenis', 'unit', 'grading', 'tindakan', 'rca']);
         $query = parent::getEloquentQuery()
-            ->with(['pasien', 'jenis', 'unit', 'grading', 'tindakan', 'rca']);
+            ->with(['pasien', 'jenis', 'unit', 'grading', 'tindakan', 'rca', 'investigasi_sederhana']);
 
         // Jika user adalah pegawai, batasi data berdasarkan unitnya
         if (auth()->check() && auth()->user()->can('view_only_unit_insiden')) {
