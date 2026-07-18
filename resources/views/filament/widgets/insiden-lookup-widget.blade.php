@@ -121,30 +121,32 @@
                   @if ($selectedIncident)
                       <div class="grid grid-cols-3 gap-2 py-2 border-b border-gray-50 dark:border-gray-800">
                           <span class="font-semibold text-gray-900 dark:text-white">Nama Insiden</span>
-                          <span class="col-span-2 text-gray-600 dark:text-gray-400">{{ $selectedIncident->insiden }}</span>
+                          <span class="col-span-2 text-gray-600 dark:text-gray-400">{{ $selectedIncident['insiden'] }}</span>
                       </div>
                       <div class="grid grid-cols-3 gap-2 py-2 border-b border-gray-50 dark:border-gray-800">
                           <span class="font-semibold text-gray-900 dark:text-white">Tanggal Kejadian</span>
-                          <span class="col-span-2 text-gray-600 dark:text-gray-400">{{ $selectedIncident->tanggal_insiden?->translatedFormat('d F Y') }} pukul {{ $selectedIncident->waktu_insiden }}</span>
+                          <span class="col-span-2 text-gray-600 dark:text-gray-400">
+                              {{ \Carbon\Carbon::parse($selectedIncident['tanggal_insiden'])->translatedFormat('d F Y') }} pukul {{ $selectedIncident['waktu_insiden'] }}
+                          </span>
                       </div>
                       <div class="grid grid-cols-3 gap-2 py-2 border-b border-gray-50 dark:border-gray-800">
                           <span class="font-semibold text-gray-900 dark:text-white">Pasien</span>
                           <span class="col-span-2 text-gray-600 dark:text-gray-400">
-                              {{ $selectedIncident->pasien->nm_pasien ?? $selectedIncident->nm_pasien ?? '-' }} 
-                              @if($selectedIncident->pasien_id)
-                                  <span class="text-xs text-gray-400">({{ $selectedIncident->pasien_id }})</span>
+                              {{ $selectedIncident['pasien']['nm_pasien'] ?? $selectedIncident['nm_pasien'] ?? '-' }} 
+                              @if(!empty($selectedIncident['pasien_id']))
+                                  <span class="text-xs text-gray-400">({{ $selectedIncident['pasien_id'] }})</span>
                               @endif
                           </span>
                       </div>
                       <div class="grid grid-cols-3 gap-2 py-2 border-b border-gray-50 dark:border-gray-800">
                           <span class="font-semibold text-gray-900 dark:text-white">Tempat Kejadian</span>
-                          <span class="col-span-2 text-gray-600 dark:text-gray-400">{{ $selectedIncident->tempat_kejadian }} (Unit: {{ $selectedIncident->unit->nama_unit ?? '-' }})</span>
+                          <span class="col-span-2 text-gray-600 dark:text-gray-400">{{ $selectedIncident['tempat_kejadian'] }} (Unit: {{ $selectedIncident['unit']['nama_unit'] ?? '-' }})</span>
                       </div>
                       <div class="grid grid-cols-3 gap-2 py-2 border-b border-gray-50 dark:border-gray-800">
                           <span class="font-semibold text-gray-900 dark:text-white">Dampak Insiden</span>
                           <span class="col-span-2">
                               <span class="capitalize px-2 py-0.5 rounded text-xs font-semibold
-                                  {{ match($selectedIncident->dampak_insiden) {
+                                  {{ match($selectedIncident['dampak_insiden']) {
                                       'tidak signifikan' => 'bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300',
                                       'minor' => 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400',
                                       'moderat' => 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400',
@@ -152,18 +154,18 @@
                                       'katastropik' => 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400',
                                       default => 'bg-gray-100 text-gray-700'
                                   } }}">
-                                  {{ $selectedIncident->dampak_insiden }}
+                                  {{ $selectedIncident['dampak_insiden'] }}
                               </span>
                           </span>
                       </div>
                       <div class="py-2 border-b border-gray-50 dark:border-gray-800">
                           <span class="font-semibold text-gray-900 dark:text-white block mb-1">Kronologi</span>
-                          <p class="text-gray-600 dark:text-gray-400 leading-relaxed bg-gray-50 dark:bg-gray-800/30 p-3 rounded-lg text-xs">{{ $selectedIncident->kronologi }}</p>
+                          <p class="text-gray-600 dark:text-gray-400 leading-relaxed bg-gray-50 dark:bg-gray-800/30 p-3 rounded-lg text-xs">{{ $selectedIncident['kronologi'] }}</p>
                       </div>
-                      @if($selectedIncident->tindakan)
+                      @if(!empty($selectedIncident['tindakan']))
                           <div class="py-2">
                               <span class="font-semibold text-gray-900 dark:text-white block mb-1">Tindakan Penanganan</span>
-                              <p class="text-gray-600 dark:text-gray-400 leading-relaxed bg-gray-50 dark:bg-gray-800/30 p-3 rounded-lg text-xs">{{ $selectedIncident->tindakan->content ?? '-' }}</p>
+                              <p class="text-gray-600 dark:text-gray-400 leading-relaxed bg-gray-50 dark:bg-gray-800/30 p-3 rounded-lg text-xs">{{ $selectedIncident['tindakan']['content'] ?? '-' }}</p>
                           </div>
                       @endif
                   @endif

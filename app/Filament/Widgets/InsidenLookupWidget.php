@@ -29,7 +29,7 @@ class InsidenLookupWidget extends Widget
     public function openLookup($type, $title, $id = null, $color = null, $tahun = null)
     {
         $this->title = $title;
-        $tahun = $this->filters['tahun'] ?? $tahun ?? now()->year;
+        $tahun = (is_array($this->filters) && isset($this->filters['tahun'])) ? $this->filters['tahun'] : ($tahun ?? now()->year);
         
         $query = Insiden::with(['pasien', 'jenis', 'unit', 'grading']);
 
@@ -79,10 +79,11 @@ class InsidenLookupWidget extends Widget
 
     public function showDetail($incidentId)
     {
-        $this->selectedIncident = Insiden::with(['pasien', 'jenis', 'unit', 'grading', 'tindakan', 'oleh', 'penerima', 'investigasi_sederhana', 'rca'])
+        $incident = Insiden::with(['pasien', 'jenis', 'unit', 'grading', 'tindakan', 'oleh', 'penerima', 'investigasi_sederhana', 'rca'])
             ->find($incidentId);
             
-        if ($this->selectedIncident) {
+        if ($incident) {
+            $this->selectedIncident = $incident->toArray();
             $this->isDetailOpen = true;
         }
     }
