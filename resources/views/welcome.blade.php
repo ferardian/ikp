@@ -19,37 +19,24 @@
 <nav class="flex items-center justify-between p-6 bg-[#F2F7FF]">
     {{-- logo, menu center, login button --}}
     <div class="flex items-center justify-between w-full max-w-7xl mx-auto">
-        <div class="flex flex-row gap-6 items-center justify-between lg:justify-start w-full">
+        <div class="flex items-center">
             {{-- logo --}}
             <a href="{{ env('APP_URL') }}" class="text-xl font-semibold text-black">
-                <img src="{{ $settings->logo ? asset('/storage/' . $settings->logo) : asset('/images/logo.png') }}" alt="Logo" class="max-w-[180px] xl:max-w-[270px] max-h-[40px] lg:max-h-[50px]" />
+                <img src="{{ $settings->logo ? asset('/storage/' . $settings->logo) : asset('/images/logo.png') }}" alt="Logo" class="max-w-[150px] sm:max-w-[180px] xl:max-w-[270px] max-h-[35px] sm:max-h-[40px] lg:max-h-[50px]" />
             </a>
-
-            {{-- 2nd Branding --}}
-            {{-- <a href="{{ env('APP_URL') . '#!' }}" class="text-xl font-semibold text-black">
-                <img src="{{ asset('images/umy-maadrs.jpg') }}" alt="Logo" class="max-w-[180px] xl:max-w-[270px] max-h-[40px] xl:max-h-[50px]" />
-            </a> --}}
         </div>
 
-        {{-- menu center --}}
-        <ul class="flex items-center gap-10">
-            {{-- <li><a href="#" class="text-base font-medium text-[#6C87AE] hover:text-[#3A8EF6]">Home</a></li>
-            <li><a href="#" class="text-base font-medium text-[#6C87AE] hover:text-[#3A8EF6]">About</a></li>
-            <li><a href="#" class="text-base font-medium text-[#6C87AE] hover:text-[#3A8EF6]">Services</a></li>
-            <li><a href="#" class="text-base font-medium text-[#6C87AE] hover:text-[#3A8EF6]">Contact</a></li> --}}
-        </ul>
-
-        <div class="hidden lg:block">
+        <div class="flex items-center gap-3">
             {{-- login button --}}
             @if (Route::has('filament.app.auth.login'))
                 @auth
-                    <a href="{{ route('filament.app.pages.dashboard') }}" class="text-lg leading-none text-white rounded-full px-5 py-3 flex items-center justify-center gap-3 bg-gradient-to-br from-[#3A8EF6] to-[#6F3AFA] shadow-lg shadow-gray-400/50">
-                        <x-icons.category class="w-5 h-5 text-white" />
+                    <a href="{{ route('filament.app.pages.dashboard') }}" class="text-sm sm:text-base md:text-lg leading-none text-white rounded-full px-4 py-2 sm:px-5 sm:py-3 flex items-center justify-center gap-2 sm:gap-3 bg-gradient-to-br from-[#3A8EF6] to-[#6F3AFA] shadow-lg shadow-gray-400/50 hover:-translate-y-0.5 transition-all duration-300">
+                        <x-icons.category class="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         <span class="mb-0.5">Dashboard</span>
                     </a>
                 @else
-                    <a href="{{ route('filament.app.auth.login') }}" class="text-lg leading-none text-white rounded-full px-5 py-3 flex items-center justify-center gap-3 bg-gradient-to-br from-[#3A8EF6] to-[#6F3AFA] shadow-lg shadow-gray-400/50">
-                        <x-icons.login class="w-5 h-5 text-white" />
+                    <a href="{{ route('filament.app.auth.login') }}" class="text-sm sm:text-base md:text-lg leading-none text-white rounded-full px-4 py-2 sm:px-5 sm:py-3 flex items-center justify-center gap-2 sm:gap-3 bg-gradient-to-br from-[#3A8EF6] to-[#6F3AFA] shadow-lg shadow-gray-400/50 hover:-translate-y-0.5 transition-all duration-300">
+                        <x-icons.login class="w-4 h-4 sm:w-5 sm:h-5 text-white" />
                         <span class="mb-0.5">Login</span>
                     </a>
                 @endauth
