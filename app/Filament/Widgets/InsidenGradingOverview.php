@@ -59,6 +59,7 @@ class InsidenGradingOverview extends StatsOverviewWidget
                 ->view('filament.widgets.custom-stats', [
                     'label' => $item['grading_risiko'],
                     'value' => $item['total'],
+                    'tahun' => $y,
                 ]);
         }
 

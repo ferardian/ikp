@@ -28,7 +28,8 @@
     ];
 @endphp
 
-<div class="{{ $colors[$label] ?? 'bg-gray-300' }} overflow-hidden sm:rounded-2xl grading-item">
+<div class="{{ $colors[$label] ?? 'bg-gray-300' }} overflow-hidden sm:rounded-2xl grading-item cursor-pointer hover:opacity-90 transition"
+     wire:click="$dispatch('open-insiden-lookup', { type: 'grading', color: '{{ $label }}', title: 'Grading {{ $label }}', tahun: '{{ $tahun }}' })">
     <div class="p-6 text-gray-900">
         <div class="flex items-center justify-between">
             <div>

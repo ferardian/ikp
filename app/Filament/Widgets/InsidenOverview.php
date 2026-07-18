@@ -39,14 +39,22 @@ class InsidenOverview extends BaseWidget
                     $totalInsidenChartQuery
                         ->pluck(DB::raw('COUNT(*)'), DB::raw('DATE_FORMAT(tanggal_insiden, "%Y-%m")'))
                         ->toArray()
-                ),
+                )
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:opacity-85 transition',
+                    'wire:click' => '$dispatch(\'open-insiden-lookup\', { type: \'total\', title: \'Total Insiden\' })',
+                ]),
 
             $this->InsidenTahunIni(),
 
             Stat::make("Insiden Belum Tergrading", $unGradingInsiden->count())
                 ->description("Insiden yang belum tergrading")
                 ->descriptionIcon("heroicon-o-exclamation-triangle", IconPosition::Before)
-                ->color('warning'),
+                ->color('warning')
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:opacity-85 transition',
+                    'wire:click' => '$dispatch(\'open-insiden-lookup\', { type: \'belum_tergrading\', title: \'Insiden Belum Tergrading\' })',
+                ]),
         ];
     }
 
@@ -104,6 +112,10 @@ class InsidenOverview extends BaseWidget
             ->chart(
                 $q->pluck(DB::raw('COUNT(*)'), DB::raw('DATE_FORMAT(tanggal_insiden, "%Y-%m")'))
                     ->toArray(),
-            );
+            )
+            ->extraAttributes([
+                'class' => 'cursor-pointer hover:opacity-85 transition',
+                'wire:click' => '$dispatch(\'open-insiden-lookup\', { type: \'tahun\', title: \'Insiden Tahun ' . $tahunIni . '\', tahun: ' . $tahunIni . ' })',
+            ]);
     }
 }

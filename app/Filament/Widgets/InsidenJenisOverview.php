@@ -30,6 +30,7 @@ class InsidenJenisOverview extends StatsOverviewWidget
                 }
             })
             ->select([
+                'jenis_insiden.id',
                 'jenis_insiden.nama_jenis_insiden',
                 'jenis_insiden.alias',
             ])
@@ -40,7 +41,11 @@ class InsidenJenisOverview extends StatsOverviewWidget
         $widgets = [];
 
         foreach ($jumlahInsidenPerJenis as $item) {
-            $widgets[] = Stat::make($item->nama_jenis_insiden, $item->jumlah);
+            $widgets[] = Stat::make($item->nama_jenis_insiden, $item->jumlah)
+                ->extraAttributes([
+                    'class' => 'cursor-pointer hover:opacity-85 transition',
+                    'wire:click' => '$dispatch(\'open-insiden-lookup\', { type: \'jenis\', id: ' . $item->id . ', title: \'' . $item->nama_jenis_insiden . '\', tahun: ' . $y . ' })',
+                ]);
         }
 
         return $widgets;

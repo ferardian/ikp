@@ -23,7 +23,8 @@ class Dashboard extends BaseDashboard
             \App\Filament\Widgets\InsidenJenisOverview::class,
             \App\Filament\Widgets\InsidenBulananChart::class,
             \App\Filament\Widgets\InsidenGradingOverview::class,
-            \App\Filament\Widgets\TopUnitInsiden::class
+            \App\Filament\Widgets\TopUnitInsiden::class,
+            \App\Filament\Widgets\InsidenLookupWidget::class,
         ];
     }
 
