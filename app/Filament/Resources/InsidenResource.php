@@ -121,6 +121,7 @@ class InsidenResource extends Resource implements HasShieldPermissions
             ->columns([
                 Tables\Columns\TextColumn::make('insiden')
                     ->searchable()
+                    ->html()
                     ->tooltip(function (Insiden $record) {
                         $diff = $record->created_at->diff($record->tanggal_insiden);
                         $diffFormatted = '';
@@ -142,35 +143,32 @@ class InsidenResource extends Resource implements HasShieldPermissions
                         return $diffHours >= 24
                             ? 'Dibuat setelah ' . $diffFormatted
                             : null;
-                    })->color(
-                        fn(Insiden $record) =>
-                        abs($record->created_at->diffInHours($record->tanggal_insiden)) >= 24
-                        ? 'danger'
-                        : null
-                    )->limit(35)
-                    ->description(function (Insiden $record) {
-                        if ($record->pasien) {
-                            return "Pasien : " . $record->pasien->nm_pasien;
-                        } else {
-                            return "Pasien : " . $record->nm_pasien;
+                    })
+                    ->formatStateUsing(function (Insiden $record) {
+                        $insidenText = e(Str::limit($record->insiden, 45));
+                        $patientText = $record->pasien ? "Pasien : " . $record->pasien->nm_pasien : "Pasien : " . $record->nm_pasien;
+                        
+                        $isDanger = abs($record->created_at->diffInHours($record->tanggal_insiden)) >= 24;
+                        $titleClass = $isDanger ? 'text-red-600 dark:text-red-400 font-medium' : 'text-gray-950 dark:text-white font-medium';
+
+                        $badges = [];
+                        if ($record->investigasi_sederhana !== null) {
+                            $badges[] = '<span class="inline-flex items-center rounded-md bg-emerald-50 dark:bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20 dark:ring-emerald-500/20">Investigasi</span>';
                         }
+                        if ($record->rca !== null) {
+                            $badges[] = '<span class="inline-flex items-center rounded-md bg-indigo-50 dark:bg-indigo-500/10 px-1.5 py-0.5 text-[10px] font-medium text-indigo-700 dark:text-indigo-400 ring-1 ring-inset ring-indigo-600/20 dark:ring-indigo-500/20">RCA</span>';
+                        }
+
+                        $badgesHtml = !empty($badges) ? '<div class="flex gap-1.5 mt-1">' . implode('', $badges) . '</div>' : '';
+
+                        return new HtmlString("
+                            <div class='flex flex-col'>
+                                <span class='{$titleClass}'>{$insidenText}</span>
+                                <span class='text-xs text-gray-500 mt-0.5'>{$patientText}</span>
+                                {$badgesHtml}
+                            </div>
+                        ");
                     }),
-                Tables\Columns\IconColumn::make('investigasi_sederhana')
-                    ->label('Investigasi')
-                    ->boolean()
-                    ->getStateUsing(fn (Insiden $record): bool => $record->investigasi_sederhana !== null)
-                    ->trueIcon('heroicon-s-check-circle')
-                    ->falseIcon('heroicon-s-x-circle')
-                    ->trueColor('success')
-                    ->falseColor('danger'),
-                Tables\Columns\IconColumn::make('rca')
-                    ->label('RCA')
-                    ->boolean()
-                    ->getStateUsing(fn (Insiden $record): bool => $record->rca !== null)
-                    ->trueIcon('heroicon-s-check-circle')
-                    ->falseIcon('heroicon-s-x-circle')
-                    ->trueColor('success')
-                    ->falseColor('danger'),
                 Tables\Columns\TextColumn::make('jenis.alias')
                     ->searchable()
                     ->toggleable(isToggledHiddenByDefault: false)
