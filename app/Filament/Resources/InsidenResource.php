@@ -153,10 +153,10 @@ class InsidenResource extends Resource implements HasShieldPermissions
 
                         $badges = [];
                         if ($record->investigasi_sederhana !== null) {
-                            $badges[] = '<span class="inline-flex items-center rounded-md bg-emerald-50 dark:bg-emerald-500/10 px-1.5 py-0.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400 ring-1 ring-inset ring-emerald-600/20 dark:ring-emerald-500/20">Investigasi</span>';
+                            $badges[] = '<span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-medium" style="background-color: #ecfdf5; color: #047857; border: 1px solid rgba(16, 185, 129, 0.2);">Investigasi</span>';
                         }
                         if ($record->rca !== null) {
-                            $badges[] = '<span class="inline-flex items-center rounded-md bg-orange-50 dark:bg-orange-500/10 px-1.5 py-0.5 text-[10px] font-medium text-orange-700 dark:text-orange-400 ring-1 ring-inset ring-orange-600/20 dark:ring-orange-500/20">RCA</span>';
+                            $badges[] = '<span class="inline-flex items-center rounded-md px-1.5 py-0.5 text-[10px] font-medium" style="background-color: #fff7ed; color: #c2410c; border: 1px solid rgba(249, 115, 22, 0.2);">RCA</span>';
                         }
 
                         $badgesHtml = !empty($badges) ? '<div class="flex gap-1.5 mt-1">' . implode('', $badges) . '</div>' : '';
