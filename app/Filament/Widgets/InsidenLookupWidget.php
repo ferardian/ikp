@@ -26,8 +26,14 @@ class InsidenLookupWidget extends Widget
     protected int | string | array $columnSpan = 'full';
 
     #[On('open-insiden-lookup')]
-    public function openLookup($type, $title, $id = null, $color = null, $tahun = null)
+    public function openLookup(array $params)
     {
+        $type = $params['type'] ?? 'total';
+        $title = $params['title'] ?? '';
+        $id = $params['id'] ?? null;
+        $color = $params['color'] ?? null;
+        $tahun = $params['tahun'] ?? null;
+
         $this->title = $title;
         $tahun = (is_array($this->filters) && isset($this->filters['tahun'])) ? $this->filters['tahun'] : ($tahun ?? now()->year);
         
