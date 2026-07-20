@@ -97,5 +97,6 @@ class InsidenLookupWidget extends Widget
     public function closeDetail()
     {
         $this->isDetailOpen = false;
+        $this->selectedIncident = null;
     }
 }

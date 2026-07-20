@@ -12,7 +12,7 @@
          
          <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 w-full max-w-4xl flex flex-col"
               style="max-height: 85vh;"
-              @click.away="$wire.closeLookup()">
+              @click.away="if (!detailOpen) $wire.closeLookup()">
               
               <!-- Modal Header -->
               <div class="px-6 py-5 border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
