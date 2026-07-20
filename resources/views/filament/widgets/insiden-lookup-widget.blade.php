@@ -7,8 +7,8 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4 bg-gray-950/60 backdrop-blur-sm"
-         style="display: none;">
+         class="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4"
+         style="display: none; background-color: rgba(15, 23, 42, 0.65); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px);">
          
          <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 w-full max-w-4xl flex flex-col"
               style="max-height: 85vh;"
@@ -135,8 +135,8 @@
          x-transition:leave="transition ease-in duration-200"
          x-transition:leave-start="opacity-100"
          x-transition:leave-end="opacity-0"
-         class="fixed inset-0 overflow-y-auto flex items-center justify-center p-4 bg-gray-950/65 backdrop-blur-sm"
-         style="display: none; z-index: 60;">
+         class="fixed inset-0 overflow-y-auto flex items-center justify-center p-4"
+         style="display: none; z-index: 60; background-color: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);">
          
          <div class="bg-white dark:bg-gray-900 rounded-2xl shadow-2xl border border-gray-100 dark:border-gray-800 w-full max-w-2xl flex flex-col"
               style="max-height: 85vh;"
